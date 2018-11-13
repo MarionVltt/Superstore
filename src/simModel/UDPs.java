@@ -45,6 +45,22 @@ class UDPs
 	}
 	
 	protected int nextPayment() {
+		for(int i = 0; i<20; i++) {
+			if(model.rcCounters[i].state == Counter.counterStates.PAYMENT_READY 
+					&& model.rcCounters[i].customer.payMethod != Customer.payMethods.CHECK_NO_CARD) {
+				return i;
+			}
+		}
+		return Constants.NONE;
+	}
+	
+	protected int nextBagging() {
+		for(int i = 0; i<20; i++) {
+			if(model.rcCounters[i].state == Counter.counterStates.BAGGING_READY 
+					&& model.rcCounters[i].baggerPresent == false) {
+				return i;
+			}
+		}
 		return Constants.NONE;
 	}
 }
