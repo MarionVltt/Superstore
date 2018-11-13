@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/leocr/Documents/Supaéro/Ottawa/Simulation and modeling/project/libraries/colt.jar"/>
-	<classpathentry kind="lib" path="C:/Users/leocr/Documents/Supaéro/Ottawa/Simulation and modeling/project/libraries/absmodjV3_20171114.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/Ottawa/Mod_sim/project/libraries/colt.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/Ottawa/Mod_sim/project/libraries/absmodjV3_20171114.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

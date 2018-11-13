@@ -11,6 +11,7 @@ public class SMSuperstore extends AOSimulationModel
 	// Constants available from Constants class
 	/* Parameter */
         protected int[] cashierSchedule;
+        
 
 	/*-------------Entity Data Structures-------------------*/
 	/* Group and Queue Entities */
@@ -25,7 +26,7 @@ public class SMSuperstore extends AOSimulationModel
 	
 
 	/* Input Variables */
-	// Define any Independent Input Varaibles here
+	// Define any Independent Input Variables here
 	
 	
 	// References to RVP and DVP objects
@@ -39,9 +40,9 @@ public class SMSuperstore extends AOSimulationModel
 	// Output values - define the public methods that return values
 	// required for experimentation.
 	// SSOVs
-	public int getNumCostumers () {return 0;}; // changer int en ArrayList? 
-	public int getNumLongWait () {return 0;};
-	public int getPropLongWait () {return 0;};
+	public int[] getNumCostumers () {return output.numCustomers;};  
+	public int[] getNumLongWait () {return output.numLongWait;};
+	public double[] getPropLongWait () {return output.propLongWait;};
 
 
 	// Constructor
