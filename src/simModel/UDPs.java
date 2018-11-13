@@ -27,7 +27,7 @@ class UDPs
 	protected int ChooseQueue() {
 		int id = Constants.NONE;
 		int mini = model.qCustLines[0].n;
-		for (int i = 0; i<20; i++) {
+		for (int i=Constants.C1; i<=Constants.C20; i++) {
 			if(model.rcCounters[i].uOpen && model.qCustLines[i].n<mini){
 				id = i;				
 			}
@@ -36,7 +36,7 @@ class UDPs
 	}
 	
 	protected int nextScanning() {
-		for(int i =0; i<20; i++) {
+		for(int i=Constants.C1; i<=Constants.C20; i++) {
 			if(model.rcCounters[i].state == Counter.counterStates.SCANNING_READY && model.qCustLines[i].n >0) {
 				return i;
 			}
@@ -45,7 +45,7 @@ class UDPs
 	}
 	
 	protected int nextPayment() {
-		for(int i = 0; i<20; i++) {
+		for(int i=Constants.C1; i<=Constants.C20; i++) {
 			if(model.rcCounters[i].state == Counter.counterStates.PAYMENT_READY 
 					&& model.rcCounters[i].customer.payMethod != Customer.payMethods.CHECK_NO_CARD) {
 				return i;
@@ -55,7 +55,7 @@ class UDPs
 	}
 	
 	protected int nextBagging() {
-		for(int i = 0; i<20; i++) {
+		for(int i=Constants.C1; i<=Constants.C20; i++) {
 			if(model.rcCounters[i].state == Counter.counterStates.BAGGING_READY 
 					&& model.rcCounters[i].baggerPresent == false) {
 				return i;
