@@ -19,13 +19,13 @@ class Initialise extends ScheduledAction
 	protected void actionEvent() {
 		// System Initialisation
         for(int id=0; id<20; id++) {
-        	model.qCustLines[id].setN(0); //all queues empty
-        	model.rcCounters[id].setBusy(false);
-        	model.rcCounters[id].setBaggerPresent(false);
+        	model.qCustLines[id].n = 0; //all queues empty
+        	model.rcCounters[id].isBusy=false;
+        	model.rcCounters[id].baggerPresent = false;
         }
         model.rgBaggers.group.clear(); // empties the group
-        model.rSupervisor.setBusy(false);
-        model.qApproveLine.setN(0);
+        model.rSupervisor.isBusy = false;
+        model.qApproveLine.n = 0;
 	}
 	
 

@@ -21,4 +21,16 @@ class DVPs
 	   return(nextTime);
 	}
 	------------------------------------------------------------*/
+	
+	protected void openCloseCounters() {
+		int period = (int) (model.getClock())/30;
+		int nCash = model.cashierSchedule[period];
+		for (int id=0; id<20; id++) {
+			if (id<=nCash) {
+				model.rcCounters[id].uOpen = true;
+			} else {
+				model.rcCounters[id].uOpen = false;
+			}
+		}
+	}
 }

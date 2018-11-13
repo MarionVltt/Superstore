@@ -26,6 +26,7 @@ class Constants
 	public final static int C18 = 17;
 	public final static int C19 = 18;
 	public final static int C20 = 19;
+	public final static int NONE = -1;
 	
 	
 	

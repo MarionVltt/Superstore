@@ -24,6 +24,27 @@ class UDPs
         	return -1;
         }
 	------------------------------------------------------------*/
+	protected int ChooseQueue() {
+		int id = Constants.NONE;
+		int mini = model.qCustLines[0].n;
+		for (int i = 0; i<20; i++) {
+			if(model.rcCounters[i].uOpen && model.qCustLines[i].n<mini){
+				id = i;				
+			}
+		}
+		return id;
+	}
 	
+	protected int nextScanning() {
+		for(int i =0; i<20; i++) {
+			if(!model.rcCounters[i].isBusy && model.qCustLines[i].n >0) {
+				return i;
+			}
+		}
+		return Constants.NONE;
+	}
 	
+	protected int nextPayment() {
+		return Constants.NONE;
+	}
 }

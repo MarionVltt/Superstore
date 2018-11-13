@@ -10,7 +10,7 @@ public class SMSuperstore extends AOSimulationModel
 {
 	// Constants available from Constants class
 	/* Parameter */
-        // Define the parameters
+        protected int[] cashierSchedule;
 
 	/*-------------Entity Data Structures-------------------*/
 	/* Group and Queue Entities */
