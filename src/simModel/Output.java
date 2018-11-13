@@ -17,5 +17,7 @@ class Output
     // SSOVs
 	protected int[] numCustomers;
 	protected int[] numLongWait;
+	
+	//DSOV
 	protected double[] propLongWait;
 }

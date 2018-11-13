@@ -23,6 +23,8 @@ public class Scanning extends ConditionalActivity {
 		if(model.getClock()-model.rcCounters[id].customer.startWait > 15) {
 			output.numLongWait[(int) model.getClock()/30] +=1;
 		}
+		output.numCustomers[(int) model.getClock()/30]+=1;
+		output.propLongWait[(int) model.getClock()/30] = (double) (output.numLongWait[(int) model.getClock()/30])/ (double) (output.numCustomers[(int) model.getClock()/30]);
 		if (model.rgBaggers.nAvail > 0) {
 			model.rgBaggers.nAvail -=1;
 			model.rcCounters[id].baggerPresent = true;
