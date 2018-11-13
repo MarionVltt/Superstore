@@ -1,6 +1,8 @@
 package simModel;
 
 import cern.jet.random.Exponential;
+import cern.jet.random.Normal;
+import cern.jet.random.Uniform;
 import cern.jet.random.engine.MersenneTwister;
 
 class RVPs 
@@ -22,6 +24,9 @@ class RVPs
 			interArrCust[i] = new Exponential(1.0/MEAN_INTER_ARR[i],
 				                       	new MersenneTwister(sd.seed1));
 		}
+		NItemA = new Normal(MEAN_ITEM_A,SD_ITEM_A,new MersenneTwister(sd.seed2));
+		NItemB = new Normal(MEAN_ITEM_B,SD_ITEM_B,new MersenneTwister(sd.seed3));
+		ItemCat = new Uniform(0,1,new MersenneTwister(sd.seed3));
 	}
 	
 	/* Random Variate Procedure for Arrivals */
@@ -40,5 +45,23 @@ class RVPs
 	    // clock value to get the next arrival time.
 	    return(nxtInterArr+model.getClock());
 	}
-
+	
+	/* Random Variate procedures for number of items */
+	private final double MEAN_ITEM_A=27;
+	private final double MEAN_ITEM_B=108;
+	private final double SD_ITEM_A=8.33;
+	private final double SD_ITEM_B=19;
+	private final double PROB_CAT_A=0.233;
+	private Normal NItemA;
+	private Normal NItemB;
+	private Uniform ItemCat;
+	
+	protected double nItems() 
+	{
+		if(ItemCat.nextDouble()<=PROB_CAT_A)
+			return NItemA.nextDouble();
+		else
+			return NItemB.nextDouble();
+	
+	}
 }
