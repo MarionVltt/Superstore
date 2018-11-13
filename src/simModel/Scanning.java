@@ -1,13 +1,9 @@
 package simModel;
 
-import kkSimModel.Customer;
-import kkSimModel.KojoKitchen;
-import kkSimModel.Output;
 import simulationModelling.ConditionalActivity;
 
 public class Scanning extends ConditionalActivity {
 	
-	private Customer icCustomer;
 	SMSuperstore model;  // for referencing the model
 	int id;
 	
@@ -23,7 +19,7 @@ public class Scanning extends ConditionalActivity {
 		Output output = model.output;
 		this.id = model.udp.nextScanning();
 		model.rcCounters[id].customer = model.qCustLines[id].spRemoveQue();
-		model.rcCounters[id].isBusy = true;
+		model.rcCounters[id].state = Counter.counterStates.SCANNING;
 		if(model.getClock()-model.rcCounters[id].customer.startWait > 15) {
 			output.numLongWait[(int) model.getClock()/30] +=1;
 		}

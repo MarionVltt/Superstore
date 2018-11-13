@@ -20,7 +20,7 @@ class Initialise extends ScheduledAction
 		// System Initialisation
         for(int id=0; id<20; id++) {
         	model.qCustLines[id].n = 0; //all queues empty
-        	model.rcCounters[id].isBusy=false;
+        	model.rcCounters[id].state=Counter.counterStates.SCANNING_READY;
         	model.rcCounters[id].baggerPresent = false;
         }
         model.rgBaggers.group.clear(); // empties the group

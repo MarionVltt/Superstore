@@ -3,7 +3,6 @@ package simModel;
 public class Counter {
 	
 	protected boolean uOpen;
-	protected boolean isBusy;
 	protected Customer customer;
 	protected boolean baggerPresent;
 	

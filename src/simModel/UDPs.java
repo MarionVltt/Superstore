@@ -37,7 +37,7 @@ class UDPs
 	
 	protected int nextScanning() {
 		for(int i =0; i<20; i++) {
-			if(!model.rcCounters[i].isBusy && model.qCustLines[i].n >0) {
+			if(model.rcCounters[i].state == Counter.counterStates.SCANNING_READY && model.qCustLines[i].n >0) {
 				return i;
 			}
 		}
