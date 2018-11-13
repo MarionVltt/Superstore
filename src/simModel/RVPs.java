@@ -17,18 +17,25 @@ class RVPs
 	{ 
 		this.model = model; 
 		// Set up distribution functions
-		interArrDist = new Exponential(1.0/WMEAN1,  
-				                       new MersenneTwister(sd.seed1));
+		
+		for (int i=0; i<16;i++) {
+			interArrCust[i] = new Exponential(1.0/MEAN_INTER_ARR[i],
+				                       	new MersenneTwister(sd.seed1));
+		}
 	}
 	
 	/* Random Variate Procedure for Arrivals */
-	private Exponential interArrDist;  // Exponential distribution for interarrival times
-	private final double WMEAN1=10.0;
-	protected double duInput()  // for getting next value of duInput
+	private Exponential [] interArrCust = new Exponential[16] ;  // Exponential distribution for interarrival times
+	private final double MEAN_INTER_ARR[]= {38.0/60.0, 36.0/60.0, 30.0/60.0, 24.0/60.0, 
+	                                   22.0/60.0, 24.0/60.0, 22.0/60.0, 33.0/60.0, 
+	                                   34.0/60.0, 38.0/60.0 ,29.0/60.0, 24.0/60.0, 
+	                                   23.0/60.0, 38.0/60.0, 51.0/60.0, 1.0};
+	
+	protected double duCArr()  // for getting next value of duInput
 	{
 	    double nxtInterArr;
 
-        nxtInterArr = interArrDist.nextDouble();
+        nxtInterArr = interArrCust[(int)(model.getClock())/30].nextDouble();
 	    // Note that interarrival time is added to current
 	    // clock value to get the next arrival time.
 	    return(nxtInterArr+model.getClock());
