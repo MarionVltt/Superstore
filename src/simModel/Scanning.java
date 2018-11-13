@@ -27,8 +27,6 @@ public class Scanning extends ConditionalActivity {
 			model.rgBaggers.nAvail -=1;
 			model.rcCounters[id].baggerPresent = true;
 		}
-		
-
 	}
 
 	protected double duration() {
