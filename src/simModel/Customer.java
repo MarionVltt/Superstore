@@ -4,7 +4,14 @@ public class Customer {
 	
 	protected SMSuperstore model;
 	protected int nItems;
-	protected String payMethod;
+	protected enum payMethods{
+		CASH,
+		CREDIT_CARD,
+		CHECK_WITH_CARD,
+		CHECK_NO_CARD;
+	};
+	
+	protected payMethods payMethod;
 	protected double startWait;
 	
 	public Customer(SMSuperstore model) {
