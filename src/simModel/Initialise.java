@@ -16,10 +16,16 @@ class Initialise extends ScheduledAction
 		return ts[tsix++];  // only invoked at t=0
 	}
 
-	protected void actionEvent() 
-	{
+	protected void actionEvent() {
 		// System Initialisation
-                // Add initilisation instructions 
+        for(int id=0; id<20; id++) {
+        	model.qCustLines[id].setN(0); //all queues empty
+        	model.rcCounters[id].setBusy(false);
+        	model.rcCounters[id].setBaggerPresent(false);
+        }
+        model.rgBaggers.group.clear(); // empties the group
+        model.rSupervisor.setBusy(false);
+        model.qApproveLine.setN(0);
 	}
 	
 

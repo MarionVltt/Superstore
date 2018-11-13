@@ -15,4 +15,7 @@ class Output
     // Sequences - add them here
 
     // SSOVs
+	protected int numCustomers;
+	protected int numLongWait;
+	protected double propLongWait;
 }

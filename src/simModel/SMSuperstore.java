@@ -17,9 +17,16 @@ public class SMSuperstore extends AOSimulationModel
 	// Define the reference variables to the various 
 	// entities with scope Set and Unary
 	// Objects can be created here or in the Initialise Action
+	protected CustLine [] qCustLines = new CustLine[20];
+	protected Counter [] rcCounters = new Counter[20];
+	protected Baggers rgBaggers = new Baggers();
+	protected Supervisor rSupervisor = new Supervisor();
+	protected ApproveLine qApproveLine = new ApproveLine();
+	
 
 	/* Input Variables */
 	// Define any Independent Input Varaibles here
+	
 	
 	// References to RVP and DVP objects
 	protected RVPs rvp;  // Reference to rvp object - object created in constructor
@@ -31,6 +38,10 @@ public class SMSuperstore extends AOSimulationModel
 	
 	// Output values - define the public methods that return values
 	// required for experimentation.
+	// SSOVs
+	public int getNumCostumers () {return 0;}; // changer int en ArrayList? 
+	public int getNumLongWait () {return 0;};
+	public int getPropLongWait () {return 0;};
 
 
 	// Constructor
