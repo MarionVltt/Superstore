@@ -31,17 +31,17 @@ class RVPs
 		payMethodCat = new Uniform(0,1, new MersenneTwister(sd.seedPayMethodCat));
 		checkWithCard = new Uniform(0,1, new MersenneTwister(sd.seedCheckWithCard));
 		
-		NScanTime = new Normal(MEAN_SCAN_TIME, SD_SCAN_TIME, new MersenneTwister(sd.seedScanTime));
-		NPriceCheckTime = new Normal(MEAN_PRICE_CHECK, SD_PRICE_CHECK, new MersenneTwister(sd.seedPriceCheckTime));
+		ScanTime = new Normal(MEAN_SCAN_TIME, SD_SCAN_TIME, new MersenneTwister(sd.seedScanTime));
+		PriceCheckTime = new Normal(MEAN_PRICE_CHECK, SD_PRICE_CHECK, new MersenneTwister(sd.seedPriceCheckTime));
 		priceCheck = new Uniform(0,1, new MersenneTwister(sd.seedPriceCheck));
 		
-		NCash = new Normal(MEAN_CASH, SD_CASH, new MersenneTwister(sd.seedCash));
-		NCreditCard = new Normal(MEAN_CREDIT_CARD, SD_CREDIT_CARD, new MersenneTwister(sd.seedCreditCard));
-		NCheck = new Normal(MEAN_CHECK, SD_CHECK, new MersenneTwister(sd.seedCheck));
+		Cash = new Normal(MEAN_CASH, SD_CASH, new MersenneTwister(sd.seedCash));
+		CreditCard = new Normal(MEAN_CREDIT_CARD, SD_CREDIT_CARD, new MersenneTwister(sd.seedCreditCard));
+		Check = new Normal(MEAN_CHECK, SD_CHECK, new MersenneTwister(sd.seedCheck));
 		
-		NApprovalTime = new Normal(MEAN_APP_TIME, SD_APP_TIME, new MersenneTwister(sd.seedAppTime));
+		ApprovalTime = new Normal(MEAN_APP_TIME, SD_APP_TIME, new MersenneTwister(sd.seedAppTime));
 		
-		NBaggingTime = new Normal(MEAN_BAG_TIME, SD_BAG_TIME, new MersenneTwister(sd.seedBagTime));
+		BaggingTime = new Normal(MEAN_BAG_TIME, SD_BAG_TIME, new MersenneTwister(sd.seedBagTime));
 	}
 	
 	/* Random Variate Procedure for Arrivals */
@@ -71,12 +71,12 @@ class RVPs
 	private Normal NItemB;
 	private Uniform ItemCat;
 	
-	protected double nItems() 
+	protected int nItems() 
 	{
 		if(ItemCat.nextDouble()<=PROB_CAT_A)
-			return NItemA.nextDouble();
+			return (int)NItemA.nextDouble();
 		else
-			return NItemB.nextDouble();
+			return (int)NItemB.nextDouble();
 	
 	}
 	
@@ -86,8 +86,6 @@ class RVPs
 	private final double PROB_CASH_SUP20=0.20;
 	private final double PROB_CREDIT_CARD_INF20=0.25;
 	private final double PROB_CREDIT_CARD_SUP20=0.35;
-	private final double PROB_CHECK_INF20=0.30;
-	private final double PROB_CHECK_SUP20=0.45;
 	private final double PROB_CHECK_WITH_CARD=0.73;
 	private Uniform payMethodCat;
 	private Uniform checkWithCard;
@@ -132,14 +130,14 @@ class RVPs
 	private final double SD_PRICE_CHECK = 1;
 	private final double PROB_PRICE_CHECK=0.13;
 	private Uniform priceCheck;
-	private Normal NScanTime;
-	private Normal NPriceCheckTime;
+	private Normal ScanTime;
+	private Normal PriceCheckTime;
 	
 	protected double uScanTime(int nItems) {
 		if(priceCheck.nextDouble()<=PROB_PRICE_CHECK)
-			return nItems*NScanTime.nextDouble()+NPriceCheckTime.nextDouble();
+			return nItems*ScanTime.nextDouble()+PriceCheckTime.nextDouble();
 		else
-			return nItems*NScanTime.nextDouble();
+			return nItems*ScanTime.nextDouble();
 	}
 	
 	//RVP uPayTime
@@ -150,25 +148,25 @@ class RVPs
 	private final double SD_CREDIT_CARD = 0.21;
 	private final double MEAN_CHECK = 1.45;
 	private final double SD_CHECK = 0.35;
-	private Normal NCash;
-	private Normal NCreditCard;
-	private Normal NCheck;
+	private Normal Cash;
+	private Normal CreditCard;
+	private Normal Check;
 	
 	
 	protected double uPayTime(Customer.payMethods payMethod) {
 		double payTime = Constants.NONE;
 		switch (payMethod){
 			case CASH:
-				payTime = NCash.nextDouble();
+				payTime = Cash.nextDouble();
 				break;
 			case CREDIT_CARD:
-				payTime = NCreditCard.nextDouble();
+				payTime = CreditCard.nextDouble();
 				break;
 			case CHECK_WITH_CARD:
-				payTime = NCheck.nextDouble();
+				payTime = Check.nextDouble();
 				break;
 			case CHECK_NO_CARD:
-				payTime = NCheck.nextDouble();
+				payTime = Check.nextDouble();
 				break;			
 		}
 		return payTime;
@@ -178,20 +176,20 @@ class RVPs
 	
 	private final double MEAN_APP_TIME = 0.95;
 	private final double SD_APP_TIME = 0.15;
-	private Normal NApprovalTime;
+	private Normal ApprovalTime;
 	
 	protected double uApprovalTime() {
-		return NApprovalTime.nextDouble()+model.rvp.uPayTime(Customer.payMethods.CHECK_NO_CARD);
+		return ApprovalTime.nextDouble()+model.rvp.uPayTime(Customer.payMethods.CHECK_NO_CARD);
 	}
 	
 	//RVP uBaggingTime
 	
 	private final double MEAN_BAG_TIME = 1.25/60;
 	private final double SD_BAG_TIME = 0.75*60;
-	private Normal NBaggingTime;
+	private Normal BaggingTime;
 	
 	protected double uBaggingTime(int nItems) {
-		return nItems*NBaggingTime.nextDouble();
+		return nItems*BaggingTime.nextDouble();
 	}
 	
 }
