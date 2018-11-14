@@ -9,4 +9,5 @@ class Output {
 	protected int[] numCustomers;
 	protected int[] numLongWait;
 	protected double[] propLongWait;
+
 }

@@ -10,8 +10,8 @@ class Experiment
 {
    public static void main(String[] args)
    {
-       int i, NUMRUNS = 30; 
-       double startTime=0.0, endTime=660.0;
+       int i, NUMRUNS = 1; 
+       double startTime=0.0, endTime=480.0;
        Seeds[] sds = new Seeds[NUMRUNS];
        SMSuperstore mname;  // Simulation object
        int [] cashierSchedule = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
@@ -21,14 +21,14 @@ class Experiment
        for(i=0 ; i<NUMRUNS ; i++) sds[i] = new Seeds(rsg);
        
        // Loop for NUMRUN simulation runs for each case
-       // Case 1
-       System.out.println(" Case 1");
+;
        for(i=0 ; i < NUMRUNS ; i++)
        {
-          mname = new SMSuperstore(startTime,endTime,cashierSchedule,baggerSchedule,sds[i]);
+          mname = new SMSuperstore(startTime,endTime,cashierSchedule,baggerSchedule,sds[i], true);
           mname.runSimulation();
           // See examples for hints on collecting output
           // and developping code for analysis
+          //System.out.println(mname.getPropLongWait());
        }
    }
 }

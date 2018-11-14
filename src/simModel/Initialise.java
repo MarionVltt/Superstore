@@ -19,6 +19,8 @@ class Initialise extends ScheduledAction
 	protected void actionEvent() {
 		// System Initialisation
         for(int id=Constants.C1; id<=Constants.C20; id++) {
+        	model.qCustLines[id] = new CustLine();
+        	model.rcCounters[id] = new Counter();
         	model.qCustLines[id].n = 0; //all queues empty
         	model.rcCounters[id].state=Counter.counterStates.SCANNING_READY;
         	model.rcCounters[id].baggerPresent = false;
