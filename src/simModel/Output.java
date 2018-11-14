@@ -3,11 +3,13 @@ package simModel;
 class Output {
 	SMSuperstore model;
 	
-	protected Output(SMSuperstore md) { model = md; }
+	protected Output(SMSuperstore md) { 
+		model = md; 
+	}
 
     // SSOVs
-	protected int[] numCustomers;
-	protected int[] numLongWait;
-	protected double[] propLongWait;
+	protected int[] numCustomers = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	protected int[] numLongWait = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	protected double[] propLongWait = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 }

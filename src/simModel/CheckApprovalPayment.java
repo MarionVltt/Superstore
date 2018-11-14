@@ -30,6 +30,7 @@ public class CheckApprovalPayment extends ConditionalActivity{
 			model.rgBaggers.nAvail +=1;
 			model.rcCounters[id].baggerPresent=false;
 			model.rcCounters[id].state = Counter.counterStates.SCANNING_READY;
+			model.rcCounters[id].customer=null;
 		} else {
 			model.rcCounters[id].state = Counter.counterStates.BAGGING_READY;
 		}

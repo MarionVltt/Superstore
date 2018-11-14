@@ -13,12 +13,14 @@ public class CustLine {
 	}
 	
 	protected void spInsertQue(Customer cust) { 
-		custLine.add(cust); 
+		custLine.add(cust);
+		n+=1;
 	}
 	
 	protected Customer spRemoveQue() { 
 		Customer cust = null;
 		if(custLine.size() != 0) cust = custLine.remove(0);
+		n-=1;
 		return(cust);
 	}
 }

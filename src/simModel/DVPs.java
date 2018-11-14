@@ -22,19 +22,19 @@ class DVPs
 	}
 	------------------------------------------------------------*/
 	
-	private final double [] scheduleChange = {25, 55, 85, 115, 145, 175, 205, 235, 265, 295, 325, 355, 385, 415, 445};
+	private final double [] scheduleChange = {30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390, 420, 450};
 	
 	protected double nextSchedule()
 	{
-		return scheduleChange[(int)(model.getClock()) /30 + 1];  //this ensures that at t=25, the next time returned is 55, and so on
+		return scheduleChange[(int)(model.getClock()) /30];  
 		
 	}
 	
 	protected void openCloseCounters() {
-		int period = (int) (model.getClock())/30 +1; //the 6 ensures the next period starting in 5 minutes is returned.
+		int period = (int) (model.getClock())/30 ; 
 		int nCash = model.cashierSchedule[period];
 		for (int id=Constants.C1; id<=Constants.C20; id++) {
-			if (id<=nCash) {
+			if (id<nCash) {
 				model.rcCounters[id].uOpen = true;
 			} else {
 				model.rcCounters[id].uOpen = false;

@@ -26,7 +26,7 @@ class Initialise extends ScheduledAction
         	model.rcCounters[id].baggerPresent = false;
         }
         model.dvp.openCloseCounters();
-        model.rgBaggers.group.clear(); // empties the group
+        model.rgBaggers.nAvail=model.baggerSchedule[0];
         model.rSupervisor.isBusy = false;
         model.qApproveLine.n = 0;
 	}

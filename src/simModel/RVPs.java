@@ -56,6 +56,7 @@ class RVPs
 	    double nxtInterArr;
 
         nxtInterArr = interArrCust[(int)(model.getClock())/30].nextDouble();
+        //System.out.println("Next customer in: "+nxtInterArr);
 	    // Note that interarrival time is added to current
 	    // clock value to get the next arrival time.
 	    return(nxtInterArr+model.getClock());
@@ -185,7 +186,7 @@ class RVPs
 	//RVP uBaggingTime
 	
 	private final double MEAN_BAG_TIME = 1.25/60;
-	private final double SD_BAG_TIME = 0.75*60;
+	private final double SD_BAG_TIME = 0.75/60;
 	private Normal BaggingTime;
 	
 	protected double uBaggingTime(int nItems) {

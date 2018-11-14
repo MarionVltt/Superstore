@@ -19,6 +19,7 @@ public class Arrivals extends ScheduledAction {
 		cust.payMethod = model.rvp.payMethod(cust.nItems);
 		cust.startWait = model.getClock();
 		model.qCustLines[id].spInsertQue(cust);
+		//System.out.println("one client arrived queue num: " + id + " queue length: "+ model.qCustLines[id].n );
 	}
 
 }

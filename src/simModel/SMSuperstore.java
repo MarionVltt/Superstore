@@ -59,7 +59,7 @@ public class SMSuperstore extends AOSimulationModel
 		// Create RVP object with given seed
 		rvp = new RVPs(this,sd);
 		
-		// rgCounter and qCustLine objects created in Initalise Action
+		// rgCounter and qCustLine objects created in Initialise Action
 		
 		// Initialise the simulation model
 		initAOSimulModel(t0time,tftime);  
@@ -155,10 +155,14 @@ public class SMSuperstore extends AOSimulationModel
 		System.out.println("Clock = " + getClock());
 		for(int id=Constants.C1; id<=Constants.C20; id++) {
 			if(rcCounters[id].uOpen) {
-				System.out.print("id: " + id + "; n queue: " + qCustLines[id].n + "; state:" + rcCounters[id].state);
+				System.out.print("id: " + id + "; n queue: " + qCustLines[id].n + "; state:" + rcCounters[id].state + "; Bagger: " + rcCounters[id].baggerPresent);
 				if (rcCounters[id].customer != null)
 				{	
-					System.out.print(" paymethod: "+ rcCounters[id].customer.payMethod);
+					System.out.print("; Customer: True; paymethod: "+ rcCounters[id].customer.payMethod);
+				}
+				else
+				{
+					System.out.print("; Customer: False");
 				}
 				System.out.print("\n");
 			}
@@ -167,7 +171,7 @@ public class SMSuperstore extends AOSimulationModel
 		System.out.println("cash sched: " + cashierSchedule[(int) getClock()/30]);
 		System.out.println("bag sched: " + baggerSchedule[(int) getClock()/30]);
 		showSBL();
-		System.out.println(">-----------------------------------------------<");		
+		System.out.println(">-----------------------------------------------------------------<");		
 	}
 
 }

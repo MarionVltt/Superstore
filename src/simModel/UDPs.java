@@ -25,11 +25,12 @@ class UDPs
         }
 	------------------------------------------------------------*/
 	protected int ChooseQueue() {
-		int mini = model.qCustLines[0].n;
+		int mini = model.qCustLines[0].n+(model.rcCounters[0].customer==null?0:1);
 		int id = Constants.C1;
 		for (int i=Constants.C1; i<=Constants.C20; i++) {
-			if(model.rcCounters[i].uOpen && model.qCustLines[i].n<mini){
-				id = i;				
+			if(model.rcCounters[i].uOpen && model.qCustLines[i].n + (model.rcCounters[i].customer==null?0:1) < mini){
+				id = i;
+				mini = model.qCustLines[i].n + (model.rcCounters[i].customer==null?0:1);
 			}
 		}
 		return id;

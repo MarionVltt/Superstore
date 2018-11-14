@@ -15,11 +15,13 @@ public class ApproveLine {
 	
 	protected void spInsertQue(int id) { 
 		approveLine.add(id); 
+		n+=1;
 	}
 	
 	protected int spRemoveQue() { 
 		int id = Constants.NONE;
 		if(approveLine.size() != 0) id = approveLine.remove(0);
+		n-=1;
 		return(id);
 	}
 }

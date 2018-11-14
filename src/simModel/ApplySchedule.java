@@ -17,9 +17,9 @@ SMSuperstore model;
 	
 	@Override
 	protected void actionEvent() {
-		model.dvp.nextSchedule();
-		model.rgBaggers.nAvail -= model.baggerSchedule[(int)(model.getClock())/30 +1]-
-				model.baggerSchedule[(int)(model.getClock())/30];
+		model.dvp.openCloseCounters();
+		model.rgBaggers.nAvail += model.baggerSchedule[(int)(model.getClock())/30]-
+				model.baggerSchedule[(int)(model.getClock())/30-1];
 		
 	}
 	

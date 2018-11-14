@@ -26,6 +26,7 @@ public class Bagging extends ConditionalActivity{
 
 	protected void terminatingEvent() {
 		model.rcCounters[id].state = Counter.counterStates.SCANNING_READY;
+		model.rcCounters[id].customer=null;
 
 	}
 
