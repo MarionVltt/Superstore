@@ -154,8 +154,8 @@ public class SMSuperstore extends AOSimulationModel
 	{
 		System.out.println("Clock = " + getClock());
 		for(int id=Constants.C1; id<=Constants.C20; id++) {
-			if(rcCounters[id].uOpen) {
-				System.out.print("id: " + id + "; n queue: " + qCustLines[id].n + "; state:" + rcCounters[id].state + "; Bagger: " + rcCounters[id].baggerPresent);
+			if(rcCounters[id].uOpen || rcCounters[id].customer!=null) {
+				System.out.print("id: " + id + "; n queue: " + qCustLines[id].n + "; state: " + rcCounters[id].state + "; Bagger: " + rcCounters[id].baggerPresent);
 				if (rcCounters[id].customer != null)
 				{	
 					System.out.print("; Customer: True; paymethod: "+ rcCounters[id].customer.payMethod);
@@ -167,6 +167,7 @@ public class SMSuperstore extends AOSimulationModel
 				System.out.print("\n");
 			}
 		}
+		System.out.println("Supervisor busy: "+rSupervisor.isBusy+"; QApproveLength: "+qApproveLine.n);
 		System.out.println("n bagger avail: " + rgBaggers.nAvail);
 		System.out.println("cash sched: " + cashierSchedule[(int) getClock()/30]);
 		System.out.println("bag sched: " + baggerSchedule[(int) getClock()/30]);
