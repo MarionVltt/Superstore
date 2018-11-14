@@ -5,6 +5,11 @@ import cern.jet.random.Normal;
 import cern.jet.random.Uniform;
 import cern.jet.random.engine.MersenneTwister;
 
+/*
+ * This class defines the RVPs used in the model. The RVPs will be implemented 
+ * as methods returning the next number in the pseudo-random sequence.
+ */
+
 class RVPs 
 {
 	SMSuperstore model; // for accessing the clock
@@ -81,8 +86,9 @@ class RVPs
 	
 	}
 	
-	//RVP payMethod
-	
+	/*
+	 * Random variate procedure for payment method
+	 */
 	private final double PROB_CASH_INF20=0.45;
 	private final double PROB_CASH_SUP20=0.20;
 	private final double PROB_CREDIT_CARD_INF20=0.25;
@@ -123,7 +129,9 @@ class RVPs
 		}
 	}
 	
-	//RVP uScanTime
+	/*
+	 * Random variate procedure for scanning time
+	 */
 	
 	private final double MEAN_SCAN_TIME = 3/60;
 	private final double SD_SCAN_TIME = 0.75/60;
@@ -141,7 +149,9 @@ class RVPs
 			return nItems*ScanTime.nextDouble();
 	}
 	
-	//RVP uPayTime
+	/*
+	 * Random variate procedure for payment item
+	 */
 	
 	private final double MEAN_CASH = 0.95;
 	private final double SD_CASH = 0.17;
@@ -173,7 +183,9 @@ class RVPs
 		return payTime;
 	}
 	
-	//RVP uApproval
+	/*
+	 * random variate procedure for the approval time.
+	 */
 	
 	private final double MEAN_APP_TIME = 0.95;
 	private final double SD_APP_TIME = 0.15;
@@ -183,7 +195,9 @@ class RVPs
 		return ApprovalTime.nextDouble()+model.rvp.uPayTime(Customer.payMethods.CHECK_NO_CARD);
 	}
 	
-	//RVP uBaggingTime
+	/*
+	 * random variate procedure for the bagging time
+	 */
 	
 	private final double MEAN_BAG_TIME = 1.25/60;
 	private final double SD_BAG_TIME = 0.75/60;
