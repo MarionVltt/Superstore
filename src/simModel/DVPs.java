@@ -26,12 +26,12 @@ class DVPs
 	
 	protected double nextSchedule()
 	{
-		return scheduleChange[(int)(model.getClock()+6) /30];  //this ensures that at t=25, the next time returned is 55, and so on
+		return scheduleChange[(int)(model.getClock()) /30 + 1];  //this ensures that at t=25, the next time returned is 55, and so on
 		
 	}
 	
 	protected void openCloseCounters() {
-		int period = (int) (model.getClock()+6)/30; //the +6 ensures the next period starting in 5 minutes is returned.
+		int period = (int) (model.getClock())/30 +1; //the 6 ensures the next period starting in 5 minutes is returned.
 		int nCash = model.cashierSchedule[period];
 		for (int id=Constants.C1; id<=Constants.C20; id++) {
 			if (id<=nCash) {
