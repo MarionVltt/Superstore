@@ -1,35 +1,33 @@
 package simModel;
 
-class DVPs 
-{
+class DVPs {
+	
 	SMSuperstore model;  // for accessing the clock
 	
 	// Constructor
 	protected DVPs(SMSuperstore model) { this.model = model; }
-
-	// Translate deterministic value procedures into methods
-        /* -------------------------------------------------
-	                       Example
-	protected double getEmpNum()  // for getting next value of EmpNum(t)
-	{
-	   double nextTime;
-	   if(model.clock == 0.0) nextTime = 90.0;
-	   else if(model.clock == 90.0) nextTime = 210.0;
-	   else if(model.clock == 210.0) nextTime = 420.0;
-	   else if(model.clock == 420.0) nextTime = 540.0;
-	   else nextTime = -1.0;  // stop scheduling
-	   return(nextTime);
-	}
-	------------------------------------------------------------*/
 	
+	/*
+	 * Times at which the schedules change, every 30 minutes
+	 * The case t=0 is considered in the initialise action
+	 */
 	private final double [] scheduleChange = {30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390, 420, 450};
 	
+	/*
+	 * @return the next time value in the list
+	 */
 	protected double nextSchedule()
 	{
-		return scheduleChange[(int)(model.getClock()) /30];  
-		
+		if(model.getClock()<450)
+			return scheduleChange[(int)(model.getClock()) /30];
+		else
+			return model.stopTime+1; // this ensure the event is not scheduled after the end of time sequence
 	}
 	
+	/*
+	 * Set the first nCash counters to open and the others to closed, where nCash is the 
+	 * number of cashiers in the schedule for each period
+	 */
 	protected void openCloseCounters() {
 		int period = (int) (model.getClock())/30 ; 
 		int nCash = model.cashierSchedule[period];
