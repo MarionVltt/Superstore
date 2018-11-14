@@ -11,6 +11,7 @@ public class SMSuperstore extends AOSimulationModel
 	// Constants available from Constants class
 	/* Parameter */
         protected int[] cashierSchedule;
+        protected int[] baggerSchedule;
         
 
 	/*-------------Entity Data Structures-------------------*/
@@ -46,10 +47,11 @@ public class SMSuperstore extends AOSimulationModel
 
 
 	// Constructor
-	public SMSuperstore(double t0time, double tftime, /*define other args,*/ Seeds sd)
+	public SMSuperstore(double t0time, double tftime,int [] cashierSchedule, int[] baggerSchedule , Seeds sd)
 	{
 		// Initialise parameters here
-		
+		this.cashierSchedule = cashierSchedule;
+		this.baggerSchedule = baggerSchedule;
 		// Create RVP object with given seed
 		rvp = new RVPs(this,sd);
 		

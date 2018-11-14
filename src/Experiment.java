@@ -14,7 +14,8 @@ class Experiment
        double startTime=0.0, endTime=660.0;
        Seeds[] sds = new Seeds[NUMRUNS];
        SMSuperstore mname;  // Simulation object
-
+       int [] cashierSchedule = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+       int [] baggerSchedule = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
        // Lets get a set of uncorrelated seeds
        RandomSeedGenerator rsg = new RandomSeedGenerator();
        for(i=0 ; i<NUMRUNS ; i++) sds[i] = new Seeds(rsg);
@@ -24,7 +25,7 @@ class Experiment
        System.out.println(" Case 1");
        for(i=0 ; i < NUMRUNS ; i++)
        {
-          mname = new SMSuperstore(startTime,endTime,sds[i]);
+          mname = new SMSuperstore(startTime,endTime,cashierSchedule,baggerSchedule,sds[i]);
           mname.runSimulation();
           // See examples for hints on collecting output
           // and developping code for analysis
