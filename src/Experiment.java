@@ -11,7 +11,7 @@ class Experiment
    public static void main(String[] args)
    {
        int i, NUMRUNS = 1; 
-       double startTime=0.0, endTime=480.0;
+       double startTime=0.0, endTime=60.0;
        Seeds[] sds = new Seeds[NUMRUNS];
        SMSuperstore mname;  // Simulation object
        int [] cashierSchedule = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
