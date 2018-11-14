@@ -1,23 +1,35 @@
 package simModel;
 import simulationModelling.*;
 
+/*
+ * Implements the scheduled action ApplySchedule
+ */
 public class ApplySchedule extends ScheduledAction{
 
-SMSuperstore model;
+	SMSuperstore model;
 	
+	/*
+	 * Constructor
+	 * @param model
+	 */
 	public ApplySchedule(SMSuperstore model) {this.model = model;}
 	
+	/*
+	 * @return The next value of time at which the schedules will be updated
+	 */
 	@Override
 	protected double timeSequence() {
 		return model.dvp.nextSchedule();
 	}
-
-	/*The computation of the period, done by adding 1 period is here to make sure that
-	 * the index returned is the one of the next period (theoreticaly starting in 5 minutes) */
 	
+	/*
+	 * Updates the schedules by using the DVP.openCloseCounters() to set the right number of open
+	 * counters, and the formula below for the baggers
+	 */
 	@Override
 	protected void actionEvent() {
 		model.dvp.openCloseCounters();
+		// to explain
 		model.rgBaggers.nAvail += model.baggerSchedule[(int)(model.getClock())/30]-
 				model.baggerSchedule[(int)(model.getClock())/30-1];
 		

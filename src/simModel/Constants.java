@@ -3,9 +3,7 @@ package simModel;
 class Constants 
 {
 	/* Constants */
-	// Define constants as static
-	// Example: protected final static double realConstant = 8.0;
-	public final static int MAX_CUST_WAIT_TIME = 15;
+	public final static int MAX_CUST_WAIT_TIME = 15; //used to determine if a client has waited to long 
 	public final static int C1 = 0;
 	public final static int C2 = 1;
 	public final static int C3 = 2;
