@@ -154,7 +154,7 @@ public class SMSuperstore extends AOSimulationModel
 	{
 		System.out.println("Clock = " + getClock());
 		for(int id=Constants.C1; id<=Constants.C20; id++) {
-			if(qCustLines[id].n > 0) {
+			if(rcCounters[id].uOpen) {
 				System.out.println("id: " + id + "; n queue: " + qCustLines[id].n + "; state:" + rcCounters[id].state
 						+ "; paymethod: "+ rcCounters[id].customer.payMethod);
 			}

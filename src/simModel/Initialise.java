@@ -25,6 +25,7 @@ class Initialise extends ScheduledAction
         	model.rcCounters[id].state=Counter.counterStates.SCANNING_READY;
         	model.rcCounters[id].baggerPresent = false;
         }
+        model.dvp.openCloseCounters();
         model.rgBaggers.group.clear(); // empties the group
         model.rSupervisor.isBusy = false;
         model.qApproveLine.n = 0;
