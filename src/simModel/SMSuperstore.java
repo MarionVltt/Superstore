@@ -158,10 +158,10 @@ public class SMSuperstore extends AOSimulationModel
 				System.out.println("id: " + id + "; n queue: " + qCustLines[id].n + "; state:" + rcCounters[id].state
 						+ "; paymethod: "+ rcCounters[id].customer.payMethod);
 			}
-			System.out.println("n bagger avail: " + rgBaggers.nAvail);
-			System.out.println("cash sched: " + cashierSchedule[(int) getClock()/30]);
-			System.out.println("bag sched: " + baggerSchedule[(int) getClock()/30]);
 		}
+		System.out.println("n bagger avail: " + rgBaggers.nAvail);
+		System.out.println("cash sched: " + cashierSchedule[(int) getClock()/30]);
+		System.out.println("bag sched: " + baggerSchedule[(int) getClock()/30]);
 		showSBL();
 		System.out.println(">-----------------------------------------------<");		
 	}

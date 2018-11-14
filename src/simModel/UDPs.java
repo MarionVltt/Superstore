@@ -25,8 +25,8 @@ class UDPs
         }
 	------------------------------------------------------------*/
 	protected int ChooseQueue() {
-		int id = Constants.NONE;
 		int mini = model.qCustLines[0].n;
+		int id = Constants.C1;
 		for (int i=Constants.C1; i<=Constants.C20; i++) {
 			if(model.rcCounters[i].uOpen && model.qCustLines[i].n<mini){
 				id = i;				
