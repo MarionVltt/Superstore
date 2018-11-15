@@ -2,9 +2,14 @@ package simModel;
 
 import cern.jet.random.engine.RandomSeedGenerator;
 
+/*
+ * This class defines random seeds for all the random variate procedures defined in the class RVPs.
+ * Each RVP gets it's own* seed.
+ */
+
 public class Seeds 
 {
-	int seedArrival;   // comment 1
+	int seedArrival;   // same seed for all the arrivals for ease of coding.
 	int seedItemA;   // comment 2
 	int seedItemB;   // comment 3
 	int seedItemCat;   // comment 4

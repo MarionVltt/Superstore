@@ -2,19 +2,31 @@ package simModel;
 
 import simulationModelling.ConditionalActivity;
 
+/*
+ * This class represents the conditional activity scanning.
+ */
+
 public class Scanning extends ConditionalActivity {
 	
 	SMSuperstore model;  // for referencing the model
-	int id;
+	int id; // this activity is parameterized since it's the same for all the counters
 	
+	// constructor
 	public Scanning(SMSuperstore model) { this.model = model; }
 	
+	/*
+	 * @param the model
+	 * @return true if the precondition of this activity, defined by UDP.nextScanning(), is true, false otherwise.
+	 */
 	protected static boolean precondition(SMSuperstore md){
 		boolean returnValue = false;
 	    if( (md.udp.nextScanning() != Constants.NONE)) returnValue = true;
 		return(returnValue);
 	}
 
+	/*
+	 * Starting event SCS
+	 */
 	public void startingEvent() {
 		Output output = model.output;
 		this.id = model.udp.nextScanning();
@@ -31,10 +43,16 @@ public class Scanning extends ConditionalActivity {
 		}
 	}
 
+	/*
+	 * Duration of the activity defined by the number of items to scan, and the need or not of a price check.
+	 */
 	protected double duration() {
 		return (model.rvp.uScanTime(model.rcCounters[id].customer.nItems));
 	}
 
+	/*
+	 * Terminating event SCS
+	 */
 	protected void terminatingEvent() {
 		if(model.rcCounters[id].customer.payMethod == Customer.payMethods.CHECK_NO_CARD) {
 			model.qApproveLine.spInsertQue(id);
