@@ -2,23 +2,19 @@ package simModel;
 
 import simulationModelling.AOSimulationModel;
 import simulationModelling.Behaviour;
-import simulationModelling.SequelActivity;
 
-//
 // The Simulation model Class
 public class SMSuperstore extends AOSimulationModel
 {
 	// Constants available from Constants class
-	/* Parameter */
-        protected int[] cashierSchedule;
-        protected int[] baggerSchedule;
+	
+	/* Parameters */
+    protected int[] cashierSchedule;
+    protected int[] baggerSchedule;
         
 
 	/*-------------Entity Data Structures-------------------*/
-	/* Group and Queue Entities */
-	// Define the reference variables to the various 
-	// entities with scope Set and Unary
-	// Objects can be created here or in the Initialise Action
+    
 	protected CustLine [] qCustLines = new CustLine[20];
 	protected Counter [] rcCounters = new Counter[20];
 	protected Baggers rgBaggers = new Baggers();
@@ -33,10 +29,6 @@ public class SMSuperstore extends AOSimulationModel
 
 	// Output object
 	protected Output output = new Output(this);
-	
-	public double[] getpropLongWait() {
-		return this.output.propLongWait;
-	}
 	
 	// Output values - define the public methods that return values
 	// required for experimentation.
@@ -135,13 +127,6 @@ public class SMSuperstore extends AOSimulationModel
 			retVal = true;
 		return (retVal);
 	}
-
-	// Standard Procedure to start Sequel Activities with no parameters
-	protected void spStart(SequelActivity seqAct)
-	{
-		seqAct.startingEvent();
-		scheduleActivity(seqAct);
-	}	
 	
 	public void eventOccured()
 	{			

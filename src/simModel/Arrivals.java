@@ -27,7 +27,7 @@ public class Arrivals extends ScheduledAction {
 	@Override
 	protected void actionEvent() {
 		int id = model.udp.ChooseQueue(); 
-		Customer cust = new Customer(model);
+		Customer cust = new Customer();
 		cust.nItems = model.rvp.nItems();
 		cust.payMethod = model.rvp.payMethod(cust.nItems);
 		cust.startWait = model.getClock();

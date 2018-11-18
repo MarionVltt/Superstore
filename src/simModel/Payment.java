@@ -2,28 +2,48 @@ package simModel;
 
 import simulationModelling.ConditionalActivity;
 
+/*
+ * Implements the conditional activity Payment, used when the payment method is NOT
+ * check without card
+ */
 public class Payment extends ConditionalActivity{
 	
 	SMSuperstore model;  // for referencing the model
-	int id;
+	int id; // counter considered here
 	
+	/*
+	 * Constructor
+	 */
 	public Payment(SMSuperstore model) { this.model = model; }
 	
+	/*
+	 * @param the model
+	 * @return true if the precondition, tested by the UDP.nextPayment, is true, false otherwise
+	 */
 	protected static boolean precondition(SMSuperstore md){
 		boolean returnValue = false;
 	    if( (md.udp.nextPayment	() != Constants.NONE)) returnValue = true;
 		return(returnValue);
 	}
 
+	/*
+	 * Starting event SCS
+	 */
 	public void startingEvent() {
 		this.id = model.udp.nextPayment();
 		model.rcCounters[id].state=Counter.counterStates.PAYMENT;
 	}
 
+	/*
+	 * Duration determined by the RVP.uPayTime and dependent on the payment method
+	 */
 	protected double duration() {
 		return (model.rvp.uPayTime(model.rcCounters[id].customer.payMethod));
 	}
 
+	/*
+	 * Terminating event SCS
+	 */
 	protected void terminatingEvent() {
 		if(model.rcCounters[id].baggerPresent) {
 			model.rgBaggers.nAvail +=1;
