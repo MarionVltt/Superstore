@@ -14,8 +14,8 @@ class Experiment
        double startTime=0.0, endTime=60.0;
        Seeds[] sds = new Seeds[NUMRUNS];
        SMSuperstore mname;  // Simulation object
-       int [] cashierSchedule = {20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20};
-       int [] baggerSchedule = {20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20};
+       int [] cashierSchedule = {2,1,20,20,20,20,20,20,20,20,20,20,20,20,20,20};
+       int [] baggerSchedule = {2,1,20,20,20,20,20,20,20,20,20,20,20,20,20,20};
        // Lets get a set of uncorrelated seeds
        RandomSeedGenerator rsg = new RandomSeedGenerator();
        for(i=0 ; i<NUMRUNS ; i++) sds[i] = new Seeds(rsg);
