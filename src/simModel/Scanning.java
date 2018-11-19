@@ -44,9 +44,7 @@ public class Scanning extends ConditionalActivity {
 	 * Duration of the activity defined by the number of items to scan, and the need or not of a price check.
 	 */
 	protected double duration() {
-		double t=model.rvp.uScanTime(model.rcCounters[id].customer.nItems);
-		System.out.println("duration scanning : " + t);
-		return (t);
+		return (model.rvp.uScanTime(model.rcCounters[id].customer.nItems));
 	}
 
 	/*
