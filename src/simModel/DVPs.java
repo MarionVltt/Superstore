@@ -3,25 +3,32 @@ package simModel;
 class DVPs {
 	
 	SMSuperstore model;  // for accessing the clock
+	private int current_schedule;  //to keep track of the current schedule
 	
 	// Constructor
-	protected DVPs(SMSuperstore model) { this.model = model; }
+	protected DVPs(SMSuperstore model) { 
+		this.model = model;
+		current_schedule=-1;  // since the index is increased before it is used, start at -1;
+	}
+
+	
+	// time sequence contains two time more elments than number of period: one for the period transition and one 10 min earlier to close counters
+	private final double [] scheduleChange = {20, 30, 50, 60, 80, 90, 110, 120, 140, 150, 170, 180, 200,
+											  210, 230, 240, 260, 270, 290, 300, 320, 330, 350, 360, 380, 
+											  390, 410, 420, 440, 450};
+
+	
 	
 	/*
-	 * Times at which the schedules change, every 30 minutes
-	 * The case t=0 is considered in the initialise action
-	 */
-	private final double [] scheduleChange = {30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390, 420, 450};
-	
-	/*
-	 * @return the next time value in the list
+	 * This DVP returns the time sequence for the ApplySchedule scheduled action.
 	 */
 	protected double nextSchedule()
 	{
-		if(model.getClock()<450)
-			return scheduleChange[(int)(model.getClock()) /30];
-		else
-			return model.stopTime+1; // this ensure the event is not scheduled after the end of time sequence
+		if(model.getClock()<450) {
+			current_schedule +=1; //move to next schedule index
+			return scheduleChange[current_schedule];
+		}
+		return model.stopTime+1; //do not reschedule this action after last period change
 	}
 	
 	/*
@@ -29,7 +36,7 @@ class DVPs {
 	 * number of cashiers in the schedule for each period
 	 */
 	protected void openCloseCounters() {
-		int period = (int) (model.getClock())/30 ; 
+		int period = (int) (model.getClock() + 10)/30 ;  // the +10 here ensure the correct period is computed, in regard to the ApplySchedule time sequence.
 		int nCash = model.cashierSchedule[period];
 		for (int id=Constants.C1; id<=Constants.C20; id++) {
 			if (id<nCash) {

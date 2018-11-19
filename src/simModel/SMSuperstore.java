@@ -140,7 +140,7 @@ public class SMSuperstore extends AOSimulationModel
 		System.out.println("Clock = " + getClock());
 		for(int id=Constants.C1; id<=Constants.C20; id++) {
 			if(rcCounters[id].uOpen || rcCounters[id].customer!=null) {
-				System.out.print("id: " + id + "; n queue: " + qCustLines[id].n + "; state: " + rcCounters[id].state + "; Bagger: " + rcCounters[id].baggerPresent);
+				System.out.print("id: " + id + "; n queue: " + qCustLines[id].n + "; Line open: " + (rcCounters[id].uOpen?"True":"False") + "; state: " + rcCounters[id].state + "; Bagger: " + rcCounters[id].baggerPresent);
 				if (rcCounters[id].customer != null)
 				{	
 					System.out.print("; Customer: True; paymethod: "+ rcCounters[id].customer.payMethod);
