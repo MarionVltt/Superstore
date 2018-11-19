@@ -23,12 +23,12 @@ class Experiment
 	}
 	public static void main(String[] args){
        int i, NUMRUNS = 1; 
-       double startTime=0.0, endTime=480.0;
+       double startTime=0.0, endTime=90.0;
        Seeds[] sds = new Seeds[NUMRUNS];
        SMSuperstore mname;  // Simulation object
        
-       int [] cashierSchedule = {2,1,20,20,20,20,20,20,20,20,20,20,20,20,20,20};
-       int [] baggerSchedule = {2,1,20,20,20,20,20,20,20,20,20,20,20,20,20,20};
+       int [] cashierSchedule = {3,4,2,20,20,20,20,20,20,20,20,20,20,20,20,20};
+       int [] baggerSchedule = {2,3,1,20,20,20,20,20,20,20,20,20,20,20,20,20};
 
        // Lets get a set of uncorrelated seeds
        RandomSeedGenerator rsg = new RandomSeedGenerator();

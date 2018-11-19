@@ -142,10 +142,14 @@ class RVPs
 	private Normal PriceCheckTime;
 	
 	protected double uScanTime(int nItems) {
-		if(priceCheck.nextDouble()<=PROB_PRICE_CHECK)
-			return nItems*ScanTime.nextDouble()+PriceCheckTime.nextDouble();
+		double scanTime =  0.0;
+		for (int i=0; i<nItems; i++) {
+			scanTime += Math.max(0.0, ScanTime.nextDouble());
+		}
+		if(priceCheck.nextDouble()<=PROB_PRICE_CHECK) 
+			return scanTime+PriceCheckTime.nextDouble();
 		else
-			return nItems*ScanTime.nextDouble();
+			return scanTime;
 	}
 	
 	/*

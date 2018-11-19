@@ -160,13 +160,12 @@ public class SMSuperstore extends AOSimulationModel
 				System.out.print("id: " + id + "; n queue: " + qCustLines[id].n + "; Line open: " + (rcCounters[id].uOpen?"True":"False") + "; state: " + rcCounters[id].state + "; Bagger: " + rcCounters[id].baggerPresent);
 				if (rcCounters[id].customer != null)
 				{	
-					System.out.print("; Customer: True; paymethod: "+ rcCounters[id].customer.payMethod);
+					System.out.println("; Customer: True; paymethod: "+ rcCounters[id].customer.payMethod);
 				}
 				else
 				{
-					System.out.print("; Customer: False");
+					System.out.println("; Customer: False");
 				}
-				System.out.print("\n");
 			}
 		}
 		System.out.println("Supervisor busy: "+rSupervisor.isBusy+"; QApproveLength: "+qApproveLine.n);
