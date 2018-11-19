@@ -6,13 +6,7 @@ import simulationModelling.*;
  */
 public class ApplySchedule extends ScheduledAction{
 
-	SMSuperstore model;
-	
-	/*
-	 * Constructor
-	 * @param model
-	 */
-	public ApplySchedule(SMSuperstore model) {this.model = model;}
+	static SMSuperstore model;
 	
 	/*
 	 * @return The next value of time at which the schedules will be updated

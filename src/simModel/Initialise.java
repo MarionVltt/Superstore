@@ -6,10 +6,7 @@ import simulationModelling.ScheduledAction;
  * Implements the scheduled action Initialise, executed once at t=0
  */
 class Initialise extends ScheduledAction {
-	SMSuperstore model;
-	
-	// Constructor
-	protected Initialise(SMSuperstore model) { this.model = model; }
+	static SMSuperstore model;
 
 	double [] ts = { 0.0, -1.0 }; // -1.0 ends scheduling
 	int tsix = 0;  // set index to first entry.

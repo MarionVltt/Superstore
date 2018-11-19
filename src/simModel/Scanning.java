@@ -8,11 +8,8 @@ import simulationModelling.ConditionalActivity;
 
 public class Scanning extends ConditionalActivity {
 	
-	SMSuperstore model;  // for referencing the model
+	static SMSuperstore model;  // for referencing the model
 	int id; // this activity is parameterized since it's the same for all the counters
-	
-	// constructor
-	public Scanning(SMSuperstore model) { this.model = model; }
 	
 	/*
 	 * @param the model

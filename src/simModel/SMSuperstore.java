@@ -24,11 +24,11 @@ public class SMSuperstore extends AOSimulationModel
 	
 	// References to RVP and DVP objects
 	protected RVPs rvp;  // Reference to rvp object - object created in constructor
-	protected DVPs dvp = new DVPs(this);  // Reference to dvp object
-	protected UDPs udp = new UDPs(this);
+	protected DVPs dvp = new DVPs();  // Reference to dvp object
+	protected UDPs udp = new UDPs();
 
 	// Output object
-	protected Output output = new Output(this);
+	protected Output output = new Output();
 	
 	// Output values - define the public methods that return values
 	// required for experimentation.
@@ -37,19 +37,36 @@ public class SMSuperstore extends AOSimulationModel
 	public int[] getNumLongWait () {return output.numLongWait;};
 	public double[] getPropLongWait () {return output.propLongWait;};
 
-
+	public void InitialiseClass() {
+		//Actions / ACtivities
+		Initialise.model=this;
+		ApplySchedule.model=this;
+		Arrivals.model=this;
+		Bagging.model=this;
+		CheckApprovalPayment.model=this;
+		Payment.model=this;
+		Scanning.model=this;
+		//RVP, UDP, DVP, Output
+		DVPs.model=this;
+		RVPs.model=this;
+		UDPs.model=this;
+		Output.model=this;
+		
+	}
 	// Constructor
 	public SMSuperstore(double t0time, double tftime,int [] cashierSchedule, int[] baggerSchedule , Seeds sd, boolean logFlag)
 	{
 		
 		// Turn trancing on if traceFlag is true
 		this.logFlag = logFlag;
-				
+		
+		//Initialise static attributes model
+		InitialiseClass();
 		// Initialise parameters here
 		this.cashierSchedule = cashierSchedule;
 		this.baggerSchedule = baggerSchedule;
 		// Create RVP object with given seed
-		rvp = new RVPs(this,sd);
+		rvp = new RVPs(sd);
 		
 		// rgCounter and qCustLine objects created in Initialise Action
 		
@@ -58,12 +75,12 @@ public class SMSuperstore extends AOSimulationModel
 		stopTime = tftime;
 
 		// Schedule the first arrivals and employee scheduling
-		Initialise init = new Initialise(this);
+		Initialise init = new Initialise();
 		scheduleAction(init);  // Should always be first one scheduled.
 		// Schedule other scheduled actions and activities here
-		Arrivals arr = new Arrivals(this);
+		Arrivals arr = new Arrivals();
 		scheduleAction(arr);
-		ApplySchedule applySched = new ApplySchedule(this);
+		ApplySchedule applySched = new ApplySchedule();
 		scheduleAction(applySched);
 		
 	}
@@ -87,7 +104,7 @@ public class SMSuperstore extends AOSimulationModel
 		// Conditional Activities
 		if (Scanning.precondition(this) == true)
 		{
-			Scanning act = new Scanning(this); // Generate instance
+			Scanning act = new Scanning(); // Generate instance
 			act.startingEvent();
 			scheduleActivity(act);
 			statusChanged = true;
@@ -95,7 +112,7 @@ public class SMSuperstore extends AOSimulationModel
 		
 		if (Payment.precondition(this) == true)
 		{
-			Payment act = new Payment(this); // Generate instance																// instance
+			Payment act = new Payment(); // Generate instance																// instance
 			act.startingEvent();
 			scheduleActivity(act);
 			statusChanged = true;
@@ -103,14 +120,14 @@ public class SMSuperstore extends AOSimulationModel
 		
 		if (CheckApprovalPayment.precondition(this) == true)
 		{
-			CheckApprovalPayment act = new CheckApprovalPayment(this); // Generate instance																// instance
+			CheckApprovalPayment act = new CheckApprovalPayment(); // Generate instance																// instance
 			act.startingEvent();
 			scheduleActivity(act);
 			statusChanged = true;
 		}
 		if (Bagging.precondition(this) == true)
 		{
-			Bagging act = new Bagging(this); // Generate instance																// instance
+			Bagging act = new Bagging(); // Generate instance																// instance
 			act.startingEvent();
 			scheduleActivity(act);
 			statusChanged = true;

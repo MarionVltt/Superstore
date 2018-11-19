@@ -2,12 +2,11 @@ package simModel;
 
 class DVPs {
 	
-	SMSuperstore model;  // for accessing the clock
+	static SMSuperstore model;  // for accessing the clock
 	private int current_schedule;  //to keep track of the current schedule
 	
 	// Constructor
-	protected DVPs(SMSuperstore model) { 
-		this.model = model;
+	protected DVPs() {
 		current_schedule=-1;  // since the index is increased before it is used, start at -1;
 	}
 

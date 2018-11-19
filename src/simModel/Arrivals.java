@@ -6,12 +6,7 @@ import simulationModelling.*;
  */
 public class Arrivals extends ScheduledAction {
 
-	SMSuperstore model;
-	
-	/*
-	 * Constructor
-	 */
-	public Arrivals(SMSuperstore model) {this.model = model;}
+	static SMSuperstore model;
 	
 	/*
 	 * @return the next value of time at which a customer will arrive

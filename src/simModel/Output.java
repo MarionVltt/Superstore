@@ -1,11 +1,7 @@
 package simModel;
 
 class Output {
-	SMSuperstore model;
-	
-	protected Output(SMSuperstore md) { 
-		model = md; 
-	}
+	static SMSuperstore model;
 
     // SSOVs
 	// Number of customers served in each period

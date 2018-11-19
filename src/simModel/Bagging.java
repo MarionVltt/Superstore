@@ -7,13 +7,9 @@ import simulationModelling.ConditionalActivity;
  */
 public class Bagging extends ConditionalActivity{
 	
-	SMSuperstore model;  // for referencing the model
+	static SMSuperstore model;  // for referencing the model
 	int id; // counter considered in the activity
 	
-	/*
-	 * Constructor
-	 */
-	public Bagging(SMSuperstore model) { this.model = model; }
 	
 	/*
 	 * @param the model

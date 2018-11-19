@@ -8,13 +8,8 @@ import simulationModelling.ConditionalActivity;
  */
 public class Payment extends ConditionalActivity{
 	
-	SMSuperstore model;  // for referencing the model
+	static SMSuperstore model;  // for referencing the model
 	int id; // counter considered here
-	
-	/*
-	 * Constructor
-	 */
-	public Payment(SMSuperstore model) { this.model = model; }
 	
 	/*
 	 * @param the model

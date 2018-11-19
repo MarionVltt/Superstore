@@ -12,7 +12,7 @@ import cern.jet.random.engine.MersenneTwister;
 
 class RVPs 
 {
-	SMSuperstore model; // for accessing the clock
+	static SMSuperstore model; // for accessing the clock
     // Data Models - i.e. random veriate generators for distributions
 	// are created using Colt classes, define 
 	// reference variables here and create the objects in the
@@ -20,9 +20,8 @@ class RVPs
 
 
 	// Constructor
-	protected RVPs(SMSuperstore model, Seeds sd) 
+	protected RVPs(Seeds sd) 
 	{ 
-		this.model = model; 
 		// Set up distribution functions
 		
 		for (int i=0; i<16;i++) {
