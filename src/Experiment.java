@@ -22,23 +22,24 @@ class Experiment
 		
 	}
 	public static void main(String[] args){
-       int i, NUMRUNS = 1; 
-       double startTime=0.0, endTime=90.0;
+       int i, NUMRUNS = 2; 
+       double startTime=0.0, endTime=480;
        Seeds[] sds = new Seeds[NUMRUNS];
        SMSuperstore mname;  // Simulation object
        
-       int [] cashierSchedule = {3,4,2,20,20,20,20,20,20,20,20,20,20,20,20,20};
-       int [] baggerSchedule = {2,3,1,20,20,20,20,20,20,20,20,20,20,20,20,20};
+       int [][] cashierSchedule = {{6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6},
+    		   						{6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6}};
+       int [][] baggerSchedule = {{4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
+    		   						{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3}};
 
        // Lets get a set of uncorrelated seeds
        RandomSeedGenerator rsg = new RandomSeedGenerator();
        for(i=0 ; i<NUMRUNS ; i++) sds[i] = new Seeds(rsg);
        
        // Loop for NUMRUN simulation runs for each case
-;
        for(i=0 ; i < NUMRUNS ; i++)
        {
-          mname = new SMSuperstore(startTime,endTime,cashierSchedule,baggerSchedule,sds[i], true);
+          mname = new SMSuperstore(startTime,endTime,cashierSchedule[i],baggerSchedule[i],sds[i], false);
           mname.runSimulation();
           // See examples for hints on collecting output
           // and developping code for analysis

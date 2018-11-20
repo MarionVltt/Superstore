@@ -144,7 +144,7 @@ class RVPs
 	protected double uScanTime(int nItems) {
 		double scanTime =  0.0;
 		for (int i=0; i<nItems; i++) {
-			scanTime += Math.max(0.0, ScanTime.nextDouble());
+			scanTime += Math.max(0.0, ScanTime.nextDouble()); //we had issues where the normal distribution returned negative times for scanning.
 		}
 		if(priceCheck.nextDouble()<=PROB_PRICE_CHECK) 
 			return scanTime+PriceCheckTime.nextDouble();
