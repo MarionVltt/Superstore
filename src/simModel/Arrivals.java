@@ -2,14 +2,14 @@ package simModel;
 import simulationModelling.*;
 
 /*
- * Implements the scheduled action Arrivals
+ * Implements the scheduled action Arrivals,  the entity stream representing the arriving customers
  */
 public class Arrivals extends ScheduledAction {
 
 	static SMSuperstore model;
 	
 	/*
-	 * @return the next value of time at which a customer will arrive
+	 * @return the next time value at which a customer will arrive
 	 */
 	@Override
 	protected double timeSequence() {

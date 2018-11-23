@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * with a check and no card
  *
  */
-public class ApproveLine {
+public class ApproveLine {// the list of Counter ids waiting to approve a check
 	
 	// Implement the queue using an ArrayList object
 	protected ArrayList<Integer> approveLine = new ArrayList<Integer>(); 

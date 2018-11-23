@@ -5,7 +5,7 @@ package simModel;
  */
 public class Customer {
 	
-	protected int nItems; // number of items
+	protected int nItems; // number of items the customer wants to buy
 	protected enum payMethods{
 		CASH,
 		CREDIT_CARD,
@@ -13,7 +13,7 @@ public class Customer {
 		CHECK_NO_CARD;
 	};
 	
-	protected payMethods payMethod; 
+	protected payMethods payMethod; // Payment method the customer wants to use
 	protected double startWait; // time at which the customer started to wait
 	
 }

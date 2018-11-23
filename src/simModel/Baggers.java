@@ -11,7 +11,7 @@ public class Baggers {
 	* At schedule change, the number may become negative to show that some baggers 
 	* are working overtime.
 	*/
-	protected int nAvail;
+	protected int nAvail; // The number of baggers available
 	
 	protected int getN() { return nAvail; }
 }

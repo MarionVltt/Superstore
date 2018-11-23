@@ -11,7 +11,8 @@ class DVPs {
 	}
 
 	
-	// time sequence contains two time more elments than number of period: one for the period transition and one 10 min earlier to close counters
+	// time sequence contains two time more elments than number of period: 
+	// one for the period transition and one 10 min earlier to close counters
 	private final double [] scheduleChange = {20, 30, 50, 60, 80, 90, 110, 120, 140, 150, 170, 180, 200,
 											  210, 230, 240, 260, 270, 290, 300, 320, 330, 350, 360, 380, 
 											  390, 410, 420, 440, 450};
@@ -35,7 +36,7 @@ class DVPs {
 	 * number of cashiers in the schedule for each period
 	 */
 	protected void openCloseCounters() {
-		int period = (int) (model.getClock() + 10)/30 ;  // the +10 here ensure the correct period is computed, in regard to the ApplySchedule time sequence.
+		int period = (int) (model.getClock() + 10)/30 ;  // the +10 here ensure the correct period is computed, with regards to the ApplySchedule time sequence.
 		int nCash = model.cashierSchedule[period];
 		for (int id=Constants.C1; id<=Constants.C20; id++) {
 			if (id<nCash) {

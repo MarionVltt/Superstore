@@ -4,7 +4,7 @@ import simulationModelling.ConditionalActivity;
 
 /*
  * Implements the conditional activity used for payment with check but no card, which
- * requires the Supervisor approval 
+ * requires the Supervisor's approval 
  */
 
 public class CheckApprovalPayment extends ConditionalActivity{

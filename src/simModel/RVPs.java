@@ -6,7 +6,7 @@ import cern.jet.random.Uniform;
 import cern.jet.random.engine.MersenneTwister;
 
 /*
- * This class defines the RVPs used in the model. The RVPs will be implemented 
+ * This class defines the Random Variate Procedures (RVPs) used in the model. The RVPs will be implemented 
  * as methods returning the next number in the pseudo-random sequence.
  */
 
