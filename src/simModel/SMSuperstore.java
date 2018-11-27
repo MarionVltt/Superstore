@@ -21,12 +21,11 @@ public class SMSuperstore extends AOSimulationModel
 	protected Supervisor rSupervisor = new Supervisor();
 	protected ApproveLine qApproveLine = new ApproveLine();
 		
-	
 	// References to RVP and DVP objects
 	protected RVPs rvp;  // Reference to rvp object - object created in constructor
 	protected DVPs dvp = new DVPs();  // Reference to dvp object
-	protected UDPs udp = new UDPs();
 
+	Seeds sd;
 	// Output object
 	protected Output output = new Output();
 	
@@ -46,11 +45,16 @@ public class SMSuperstore extends AOSimulationModel
 		CheckApprovalPayment.model=this;
 		Payment.model=this;
 		Scanning.model=this;
-		//RVP, UDP, DVP, Output
+		//RVP, DVP, Output
 		DVPs.model=this;
 		RVPs.model=this;
-		UDPs.model=this;
 		Output.model=this;
+		rvp = new RVPs();
+		ApplySchedule.init();
+        Arrivals.init();
+        Scanning.init();
+        Bagging.init();
+		
 		
 	}
 	// Constructor
@@ -59,14 +63,13 @@ public class SMSuperstore extends AOSimulationModel
 		
 		// Turn trancing on if traceFlag is true
 		this.logFlag = logFlag;
-		
+		this.sd = sd;
 		//Initialise static attributes model
 		InitialiseClass();
 		// Initialise parameters here
 		this.cashierSchedule = cashierSchedule;
 		this.baggerSchedule = baggerSchedule;
 		// Create RVP object with given seed
-		rvp = new RVPs(sd);
 		
 		// rgCounter and qCustLine objects created in Initialise Action
 		

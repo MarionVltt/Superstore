@@ -28,6 +28,7 @@ class Initialise extends ScheduledAction {
         model.dvp.openCloseCounters(); // open the right number of counter for the first period
         model.rgBaggers.nAvail=model.baggerSchedule[0]; // set the number of baggers to the one indicated in the schedule
         model.rSupervisor.isBusy = false;
+        
 	}
 	
 

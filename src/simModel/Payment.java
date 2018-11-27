@@ -12,12 +12,26 @@ public class Payment extends ConditionalActivity{
 	int id; // counter considered here
 	
 	/*
+	 * This UDP return the id (if it exists) of a counter ready to begin payment when no supervisor is required.
+	 * The preconditions are defined in the detailed level CM
+	 */
+	protected static int nextPayment() {
+		for(int i=Constants.C1; i<=Constants.C20; i++) {
+			if(model.rcCounters[i].state == Counter.counterStates.PAYMENT_READY 
+					&& model.rcCounters[i].customer.payMethod != Customer.payMethods.CHECK_NO_CARD) {
+				return i;
+			}
+		}
+		return Constants.NONE;
+	}
+	
+	/*
 	 * @param the model
 	 * @return true if the precondition, tested by the UDP.nextPayment, is true, false otherwise
 	 */
 	protected static boolean precondition(){
 		boolean returnValue = false;
-	    if( (model.udp.nextPayment	() != Constants.NONE)) returnValue = true;
+	    if( (nextPayment	() != Constants.NONE)) returnValue = true;
 		return(returnValue);
 	}
 
@@ -25,7 +39,7 @@ public class Payment extends ConditionalActivity{
 	 * Starting event SCS
 	 */
 	public void startingEvent() {
-		this.id = model.udp.nextPayment();
+		this.id = nextPayment();
 		model.rcCounters[id].state=Counter.counterStates.PAYMENT;
 	}
 

@@ -9,7 +9,7 @@ import cern.jet.random.engine.RandomSeedGenerator;
 
 public class Seeds 
 {
-	int seedArrival;   // same seed for all the arrivals for ease of coding.
+	int [] seedArrival = new int[16];   //seeds for all the arrivals.
 	int seedItemA;   // comment 2
 	int seedItemB;   // comment 3
 	int seedItemCat;   // comment 4
@@ -31,7 +31,9 @@ public class Seeds
 
 	public Seeds(RandomSeedGenerator rsg)
 	{
-		seedArrival=rsg.nextSeed();
+		for(int i = 0; i<16; i++) {
+			seedArrival[i]=rsg.nextSeed();
+		}
 		seedItemA=rsg.nextSeed();
 		seedItemB=rsg.nextSeed();
 		seedItemCat=rsg.nextSeed();
