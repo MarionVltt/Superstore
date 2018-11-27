@@ -11,7 +11,6 @@ public class ApproveLine {// the list of Counter ids waiting to approve a check
 	
 	// Implement the queue using an ArrayList object
 	protected ArrayList<Integer> approveLine = new ArrayList<Integer>(); 
-	protected int n = 0; //length of the queue
 	
 	// getters/setters and standard procedures
 	/*
@@ -25,8 +24,7 @@ public class ApproveLine {// the list of Counter ids waiting to approve a check
 	 * @param id, the id of the counter added to the queue
 	 */
 	protected void spInsertQue(int id) { 
-		approveLine.add(id); 
-		n+=1;
+		approveLine.add(id);
 	}
 	
 	/*
@@ -36,7 +34,6 @@ public class ApproveLine {// the list of Counter ids waiting to approve a check
 	protected int spRemoveQue() { 
 		int id = Constants.NONE;
 		if(approveLine.size() != 0) id = approveLine.remove(0); //delete and return the first element
-		n-=1;
 		return(id);
 	}
 }

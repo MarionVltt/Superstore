@@ -195,7 +195,7 @@ class RVPs
 	private Normal ApprovalTime;
 	
 	protected double uApprovalTime() {
-		return ApprovalTime.nextDouble()+model.rvp.uPayTime(Customer.payMethods.CHECK_NO_CARD);
+		return ApprovalTime.nextDouble()+uPayTime(Customer.payMethods.CHECK_NO_CARD);
 	}
 	
 	/*
@@ -207,7 +207,12 @@ class RVPs
 	private Normal BaggingTime;
 	
 	protected double uBaggingTime(int nItems) {
-		return nItems*BaggingTime.nextDouble();
+		double bagTime=0;
+		for(int i = 0; i<nItems; i++)
+		{
+			bagTime+=Math.max(0.0, BaggingTime.nextDouble());
+		}
+		return bagTime;
 	}
 	
 }

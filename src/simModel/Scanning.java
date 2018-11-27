@@ -15,9 +15,9 @@ public class Scanning extends ConditionalActivity {
 	 * @param the model
 	 * @return true if the precondition of this activity, defined by UDP.nextScanning(), is true, false otherwise.
 	 */
-	protected static boolean precondition(SMSuperstore md){
+	protected static boolean precondition(){
 		boolean returnValue = false;
-	    if( (md.udp.nextScanning() != Constants.NONE)) returnValue = true;
+	    if( (model.udp.nextScanning() != Constants.NONE)) returnValue = true;
 		return(returnValue);
 	}
 

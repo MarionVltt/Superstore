@@ -11,12 +11,12 @@ class UDPs
 	 * It's essentially a min function with special conditions. 
 	 */
 	protected int ChooseQueue() {
-		int mini = model.qCustLines[0].n+(model.rcCounters[0].customer==null?0:1);  //the ternary operator accounts for the customer in the counter. 
+		int mini = model.qCustLines[0].getN()+(model.rcCounters[0].customer==null?0:1);  //the ternary operator accounts for the customer in the counter. 
 		int id = Constants.C1;
 		for (int i=Constants.C1; i<=Constants.C20; i++) {
-			if(model.rcCounters[i].uOpen && model.qCustLines[i].n + (model.rcCounters[i].customer==null?0:1) < mini){
+			if(model.rcCounters[i].uOpen && model.qCustLines[i].getN() + (model.rcCounters[i].customer==null?0:1) < mini){
 				id = i;
-				mini = model.qCustLines[i].n + (model.rcCounters[i].customer==null?0:1);
+				mini = model.qCustLines[i].getN() + (model.rcCounters[i].customer==null?0:1);
 			}
 		}
 		return id;
@@ -28,7 +28,7 @@ class UDPs
 	 */
 	protected int nextScanning() {
 		for(int i=Constants.C1; i<=Constants.C20; i++) {
-			if(model.rcCounters[i].state == Counter.counterStates.SCANNING_READY && model.qCustLines[i].n >0) {
+			if(model.rcCounters[i].state == Counter.counterStates.SCANNING_READY && model.qCustLines[i].getN() >0) {
 				return i;
 			}
 		}

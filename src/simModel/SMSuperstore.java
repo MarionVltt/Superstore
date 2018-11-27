@@ -102,7 +102,7 @@ public class SMSuperstore extends AOSimulationModel
 		boolean statusChanged = false;
 
 		// Conditional Activities
-		if (Scanning.precondition(this) == true)
+		if (Scanning.precondition() == true)
 		{
 			Scanning act = new Scanning(); // Generate instance
 			act.startingEvent();
@@ -110,7 +110,7 @@ public class SMSuperstore extends AOSimulationModel
 			statusChanged = true;
 		}
 		
-		if (Payment.precondition(this) == true)
+		if (Payment.precondition() == true)
 		{
 			Payment act = new Payment(); // Generate instance																// instance
 			act.startingEvent();
@@ -118,14 +118,14 @@ public class SMSuperstore extends AOSimulationModel
 			statusChanged = true;
 		}
 		
-		if (CheckApprovalPayment.precondition(this) == true)
+		if (CheckApprovalPayment.precondition() == true)
 		{
 			CheckApprovalPayment act = new CheckApprovalPayment(); // Generate instance																// instance
 			act.startingEvent();
 			scheduleActivity(act);
 			statusChanged = true;
 		}
-		if (Bagging.precondition(this) == true)
+		if (Bagging.precondition() == true)
 		{
 			Bagging act = new Bagging(); // Generate instance																// instance
 			act.startingEvent();
@@ -157,7 +157,7 @@ public class SMSuperstore extends AOSimulationModel
 		System.out.println("Clock = " + getClock());
 		for(int id=Constants.C1; id<=Constants.C20; id++) {
 			if(rcCounters[id].uOpen || rcCounters[id].customer!=null) {
-				System.out.print("id: " + id + "; n queue: " + qCustLines[id].n + "; open: " + (rcCounters[id].uOpen?"True":"False") + "; state: " + rcCounters[id].state + "; Bag.: " + rcCounters[id].baggerPresent);
+				System.out.print("id: " + id + "; n queue: " + qCustLines[id].getN() + "; open: " + (rcCounters[id].uOpen?"True":"False") + "; state: " + rcCounters[id].state + "; Bag.: " + rcCounters[id].baggerPresent);
 				if (rcCounters[id].customer != null)
 				{	
 					System.out.println("; Cust.: True; paymethod: "+ rcCounters[id].customer.payMethod);
@@ -168,7 +168,7 @@ public class SMSuperstore extends AOSimulationModel
 				}
 			}
 		}
-		System.out.println("Supervisor busy: "+rSupervisor.isBusy+"; QApproveLength: "+qApproveLine.n);
+		System.out.println("Supervisor busy: "+rSupervisor.isBusy+"; QApproveLength: "+qApproveLine.getN());
 		System.out.println("n bagger avail: " + rgBaggers.nAvail);
 		System.out.println("cash sched: " + cashierSchedule[(int) getClock()/30]);
 		System.out.println("bag sched: " + baggerSchedule[(int) getClock()/30]);

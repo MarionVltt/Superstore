@@ -16,9 +16,9 @@ public class CheckApprovalPayment extends ConditionalActivity{
 	 * @param the model
 	 * @return true if the precondition is true, false otherwise
 	 */
-	protected static boolean precondition(SMSuperstore md){
+	protected static boolean precondition(){
 		boolean returnValue = false;
-	    if( (!md.rSupervisor.isBusy && md.qApproveLine.n > 0)) returnValue = true;
+	    if( (!model.rSupervisor.isBusy && model.qApproveLine.getN() > 0)) returnValue = true;
 		return(returnValue);
 	}
 

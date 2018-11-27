@@ -13,5 +13,4 @@ public class Baggers {
 	*/
 	protected int nAvail; // The number of baggers available
 	
-	protected int getN() { return nAvail; }
 }
