@@ -49,7 +49,7 @@ public class SMSuperstore extends AOSimulationModel
 		DVPs.model=this;
 		RVPs.model=this;
 		Output.model=this;
-		rvp = new RVPs();
+		rvp = new RVPs();  //rvp needs to be instanciated here, so that model.sd is initialized
 		ApplySchedule.init();
         Arrivals.init();
         Scanning.init();
