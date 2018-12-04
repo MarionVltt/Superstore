@@ -1,8 +1,10 @@
 
+
 import simModel.*;
 import cern.jet.random.engine.*;
 import outputAnalysis.ConfidenceInterval;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Experimentation {
 
@@ -59,13 +61,14 @@ public class Experimentation {
 		double [] delta = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 		int start, duration;
 		int run=0;
+		boolean backtrackFail=false;
 		Seeds [] seeds = new Seeds[NUMRUNS];
-		int randomSeed=(int) System.currentTimeMillis()%10;
+		/*int randomSeed=(int) System.currentTimeMillis()%10;
 		for(int i=0; i<randomSeed; i++) {
 			for(int j=0; j<NUMRUNS;j++) {
 				rsg.nextSeed();
 			}
-		}
+		}*/
 		for(int i=0; i<NUMRUNS;i++) {
 			seeds[i]=new Seeds(rsg);
 		}
@@ -111,7 +114,7 @@ public class Experimentation {
 		System.out.printf("Proportion of long wait times: %s\n", Arrays.toString(propLongWait));
 		System.out.println("Cashier schedule optimization done.\nBagger schedule optimization begining...");
 		for(int i=0; i<16; i++) {
-			baggerSchedule[i]=0;
+			baggerSchedule[i]=1 ;
 		}
 
 		run +=1;
@@ -120,6 +123,8 @@ public class Experimentation {
 			propLongWait[i]=intervals[i].getCfMax();
 		}
 		while(!waitOK(propLongWait,CEIL)) {
+			ArrayList<Integer> backtrackingStart = new ArrayList<Integer>();
+			ArrayList<Integer> backtrackingDuration = new ArrayList<Integer>();
 			run +=1;
 			System.out.printf("\nRun: %d \n", run);
 			System.out.printf("Current long wait proportion: %s\n", Arrays.toString(propLongWait));
@@ -128,22 +133,76 @@ public class Experimentation {
 				start+= 1;
 			}while(start < 10 && propLongWait[start]<CEIL) ;
 			if(start>0) {
-				start -=1;
+				start -= 1;
 			}
 			duration=5;
 			do {
 				duration +=1;
 			}while(duration < 10 && start+duration < 16 && propLongWait[start+duration-1]>=CEIL);
+
+			backtrackingStart.add(start);
+			backtrackingDuration.add(duration);
+
 			for(int i=0; i<16; i++) {
 				delta[i]=0;
 			}
 			for(int i=0; i<duration; i++) {
 				delta[start+i]+=1;
 			}
-			System.out.printf("Proposed modification: %s \n", Arrays.toString(delta));
+
 			for(int i=0; i<16; i++) {
 				baggerSchedule[i]+=delta[i];
 			}
+
+			int problemStart=0;
+			do {
+				problemStart++;
+			}while(problemStart<16 && baggerSchedule[problemStart]<=cashierSchedule[problemStart]);
+
+			System.out.printf("Proposed bagger schedule: %s \n", Arrays.toString(baggerSchedule));
+			if (! backtrackFail && problemStart<16) {
+				System.out.printf("original  problmeStart: %d\n", problemStart);
+				while(problemStart>0 && cashierSchedule[problemStart-1]==baggerSchedule[problemStart-1]) {
+					problemStart--;
+				}
+				if(problemStart==0) {
+					backtrackFail=true;
+					System.out.println("backtrack failed, defaulting to cashier schedule");
+					for(int i=0; i<16; i++) {
+						baggerSchedule[i]=cashierSchedule[i];
+					}
+				}
+				else {
+					System.out.printf("updated problmeStart: %d\n", problemStart);
+					System.out.println("backtracking start" + Arrays.toString(backtrackingStart.toArray()));
+					System.out.println("backtracking duration" + Arrays.toString(backtrackingDuration.toArray()));
+					int beginning = 0;
+					for(int i=0; i<backtrackingStart.size(); i++) {
+						if(backtrackingStart.get(i)>=problemStart) {
+							if(beginning==0) beginning=i;
+							for(int j=0; j<backtrackingDuration.get(i); j++) {
+								baggerSchedule[problemStart+j] --;
+							}
+						}
+					}
+					int newDuration = backtrackingDuration.get(beginning);
+					for(int i=0; i<newDuration; i++) {
+						baggerSchedule[problemStart-1+i] ++;
+					}
+
+					int nbToRemove = backtrackingStart.size()-beginning;
+					for(int i=0; i<nbToRemove; i++) {
+						backtrackingStart.remove(beginning+i);
+						backtrackingDuration.remove(beginning+i);
+					}
+					backtrackingStart.add(problemStart-1);
+					backtrackingDuration.add(newDuration);
+					System.out.println("backtracking start" + backtrackingStart);
+					System.out.println("backtracking duration" + backtrackingDuration);
+				}
+			}
+			System.out.printf("Proposed modification: %s \n", Arrays.toString(delta));
+			System.out.printf("Cashier schedule: %s\n", Arrays.toString(cashierSchedule));
 			System.out.printf("New bagger schedule: %s \n", Arrays.toString(baggerSchedule));
 			intervals = runSchedule(cashierSchedule,baggerSchedule, seeds, false);
 			for(int i=0; i<16; i++) {
@@ -153,7 +212,7 @@ public class Experimentation {
 		}
 		System.out.printf("\n\n\nOptimal bagger Schedule: %s\n", Arrays.toString(baggerSchedule));
 		System.out.printf("Proportion of long wait times: %s\n", Arrays.toString(propLongWait));
-		
+
 		System.out.println("\n\nFinal schedules: ");
 		System.out.printf("Cashier schedule: %s\n", Arrays.toString(cashierSchedule));
 		System.out.printf("Bagger schedule:  %s\n", Arrays.toString(baggerSchedule));
