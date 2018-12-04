@@ -5,35 +5,35 @@ import outputAnalysis.ConfidenceInterval;
 import java.util.Arrays;
 
 public class Experimentation {
-	
+
 	static final int NUMRUNS = 1000;
 	static final double confidence = 0.90;
-	static final double CEIL = 0.15;
+	static final double CEIL = 0.10;
 	static final double startTime=0.0, endTime=480;
 	static RandomSeedGenerator rsg = new RandomSeedGenerator();
-	
-		static public boolean waitOK(double [] propLongWait, double ceil) {
-			for(int i = 0; i<16; i++) {
-				if(propLongWait[i]>ceil)
-					return false;
-			}
-			return true;
+
+	static public boolean waitOK(double [] propLongWait, double ceil) {
+		for(int i = 0; i<16; i++) {
+			if(propLongWait[i]>ceil)
+				return false;
 		}
-	
-		static public ConfidenceInterval[] runSchedule(int [] cashierSchedule, int []baggerSchedule, boolean verbose) {
+		return true;
+	}
+
+	static public ConfidenceInterval[] runSchedule(int [] cashierSchedule, int []baggerSchedule,Seeds[] seeds, boolean verbose) {
 		SMSuperstore store;
 		ConfidenceInterval [] intervals = new ConfidenceInterval[16];
 		double [][] values = new double[16][NUMRUNS];
-		
+
 		for(int i = 0; i<NUMRUNS; i++) {
-			store = new SMSuperstore(startTime, endTime,cashierSchedule,baggerSchedule,new Seeds(rsg),false);
+			store = new SMSuperstore(startTime, endTime,cashierSchedule,baggerSchedule,seeds[i],false);
 			store.runSimulation();
 			double [] results = store.getPropLongWait();
 			for(int j = 0; j<16; j++) {
 				values[j][i] = results[j];
 			}
 		}
-		
+
 		for(int j =0; j< 16; j++) {
 			intervals[j]=new ConfidenceInterval(values[j],confidence);
 		}
@@ -48,10 +48,10 @@ public class Experimentation {
 						Math.abs(intervals[j].getZeta()/intervals[j].getPointEstimate()));
 			}
 		}
-		
+
 		return intervals;
 	}
-	
+
 	public static void main(String[] args) {
 		int [] cashierSchedule= {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 		int [] baggerSchedule= {20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20};
@@ -59,10 +59,19 @@ public class Experimentation {
 		double [] delta = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 		int start, duration;
 		int run=0;
-		
+		Seeds [] seeds = new Seeds[NUMRUNS];
+		int randomSeed=(int) System.currentTimeMillis()%10;
+		for(int i=0; i<randomSeed; i++) {
+			for(int j=0; j<NUMRUNS;j++) {
+				rsg.nextSeed();
+			}
+		}
+		for(int i=0; i<NUMRUNS;i++) {
+			seeds[i]=new Seeds(rsg);
+		}
 		ConfidenceInterval [] intervals = new ConfidenceInterval[16]; 
 		System.out.println("Initiating Cashier schedule optimization...");
-		intervals=runSchedule(cashierSchedule, baggerSchedule,true);
+		intervals=runSchedule(cashierSchedule, baggerSchedule, seeds, true);
 		for(int i=0; i<16; i++) {
 			propLongWait[i]=intervals[i].getCfMax();
 		}
@@ -92,11 +101,11 @@ public class Experimentation {
 				cashierSchedule[i]+=delta[i];
 			}
 			System.out.printf("New Cashier schedule: %s \n", Arrays.toString(cashierSchedule));
-			intervals = runSchedule(cashierSchedule,baggerSchedule,false);
+			intervals = runSchedule(cashierSchedule,baggerSchedule, seeds, false);
 			for(int i=0; i<16; i++) {
 				propLongWait[i]=intervals[i].getCfMax();
 			}
-			
+
 		}
 		System.out.printf("\n\n\nOptimal Cashier Schedule: %s\n", Arrays.toString(cashierSchedule));
 		System.out.printf("Proportion of long wait times: %s\n", Arrays.toString(propLongWait));
@@ -104,9 +113,9 @@ public class Experimentation {
 		for(int i=0; i<16; i++) {
 			baggerSchedule[i]=0;
 		}
-		
+
 		run +=1;
-		intervals=runSchedule(cashierSchedule, baggerSchedule,false);
+		intervals=runSchedule(cashierSchedule, baggerSchedule, seeds, false);
 		for(int i=0; i<16; i++) {
 			propLongWait[i]=intervals[i].getCfMax();
 		}
@@ -136,18 +145,19 @@ public class Experimentation {
 				baggerSchedule[i]+=delta[i];
 			}
 			System.out.printf("New bagger schedule: %s \n", Arrays.toString(baggerSchedule));
-			intervals = runSchedule(cashierSchedule,baggerSchedule,false);
+			intervals = runSchedule(cashierSchedule,baggerSchedule, seeds, false);
 			for(int i=0; i<16; i++) {
 				propLongWait[i]=intervals[i].getCfMax();
 			}
-			
+
 		}
 		System.out.printf("\n\n\nOptimal bagger Schedule: %s\n", Arrays.toString(baggerSchedule));
 		System.out.printf("Proportion of long wait times: %s\n", Arrays.toString(propLongWait));
 		
-		
-		
-		
+		System.out.println("\n\nFinal schedules: ");
+		System.out.printf("Cashier schedule: %s\n", Arrays.toString(cashierSchedule));
+		System.out.printf("Bagger schedule:  %s\n", Arrays.toString(baggerSchedule));
+
 	}
 
 }
