@@ -6,11 +6,10 @@ import cern.jet.random.engine.*;
 
 // Main Method: Experiments
 // 
-class VerificationExperiment
-{
+class VerificationExperiment {
 	 
 	/*
-	 * transform a list and String to be able to print it with the common methods like println
+	 * transform a list in String to be able to print it with the common methods like println
 	 */
 	public static String toString(double[] list) {
 		String result = "[";
@@ -21,11 +20,12 @@ class VerificationExperiment
 		return result;
 		
 	}
+	
 	public static void main(String[] args){
        int i, NUMRUNS = 2; 
        double startTime=0.0, endTime=480;
        Seeds[] sds = new Seeds[NUMRUNS];
-       SMSuperstore mname;  // Simulation object
+       SMSuperstore model;  // Simulation object
        
        int [][] cashierSchedule = {{20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20}, //schedules for all the test cases
     		   						{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},	
@@ -54,35 +54,35 @@ class VerificationExperiment
        
        //see detailed CM for an explanation of the desired results.
        
-       mname = new SMSuperstore(startTime,endTime,cashierSchedule[full_staff],baggerSchedule[full_staff],sds[0], false);
-       mname.runSimulation();   
-       System.out.println("Full staff: "+toString(mname.getPropLongWait())+"\n");
+       model = new SMSuperstore(startTime,endTime,cashierSchedule[full_staff],baggerSchedule[full_staff],sds[0], false);
+       model.runSimulation();   
+       System.out.println("Full staff: "+toString(model.getPropLongWait())+"\n");
        
-       mname = new SMSuperstore(startTime,endTime,cashierSchedule[no_staff],baggerSchedule[no_staff],sds[0], false);
-       mname.runSimulation();   
-       System.out.println("No staff: "+toString(mname.getPropLongWait())+"\n");
+       model = new SMSuperstore(startTime,endTime,cashierSchedule[no_staff],baggerSchedule[no_staff],sds[0], false);
+       model.runSimulation();   
+       System.out.println("No staff: "+toString(model.getPropLongWait())+"\n");
        
        
        System.out.println("Dynamic tests:");
        
-       mname = new SMSuperstore(startTime,endTime,cashierSchedule[base_case],baggerSchedule[base_case],sds[0], false);
-       mname.runSimulation();   
-       System.out.println("Base Case: "+toString(mname.getPropLongWait())+"\n");
+       model = new SMSuperstore(startTime,endTime,cashierSchedule[base_case],baggerSchedule[base_case],sds[0], false);
+       model.runSimulation();   
+       System.out.println("Base Case: "+toString(model.getPropLongWait())+"\n");
        
-       mname = new SMSuperstore(startTime,endTime,cashierSchedule[increased_case],baggerSchedule[base_case],sds[1], false);
-       mname.runSimulation();   
-       System.out.println("Cashier increased Case: "+toString(mname.getPropLongWait())+"\n");
+       model = new SMSuperstore(startTime,endTime,cashierSchedule[increased_case],baggerSchedule[base_case],sds[1], false);
+       model.runSimulation();   
+       System.out.println("Cashier increased Case: "+toString(model.getPropLongWait())+"\n");
        
-       mname = new SMSuperstore(startTime,endTime,cashierSchedule[decreased_case],baggerSchedule[base_case],sds[1], false);
-       mname.runSimulation();   
-       System.out.println("Cashier decreased Case: "+toString(mname.getPropLongWait())+"\n");
+       model = new SMSuperstore(startTime,endTime,cashierSchedule[decreased_case],baggerSchedule[base_case],sds[1], false);
+       model.runSimulation();   
+       System.out.println("Cashier decreased Case: "+toString(model.getPropLongWait())+"\n");
        
-       mname = new SMSuperstore(startTime,endTime,cashierSchedule[base_case],baggerSchedule[increased_case],sds[1], false);
-       mname.runSimulation();   
-       System.out.println("Bagger increased Case: "+toString(mname.getPropLongWait())+"\n");
+       model = new SMSuperstore(startTime,endTime,cashierSchedule[base_case],baggerSchedule[increased_case],sds[1], false);
+       model.runSimulation();   
+       System.out.println("Bagger increased Case: "+toString(model.getPropLongWait())+"\n");
        
-       mname = new SMSuperstore(startTime,endTime,cashierSchedule[base_case],baggerSchedule[decreased_case],sds[1], false);
-       mname.runSimulation();   
-       System.out.println("Bagger decreased Case: "+toString(mname.getPropLongWait())+"\n");
+       model = new SMSuperstore(startTime,endTime,cashierSchedule[base_case],baggerSchedule[decreased_case],sds[1], false);
+       model.runSimulation();   
+       System.out.println("Bagger decreased Case: "+toString(model.getPropLongWait())+"\n");
    }
 }
