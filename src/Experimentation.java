@@ -63,12 +63,12 @@ public class Experimentation {
 		int run=0;
 		boolean backtrackFail=false;
 		Seeds [] seeds = new Seeds[NUMRUNS];
-		/*int randomSeed=(int) System.currentTimeMillis()%10;
+		int randomSeed=(int) System.currentTimeMillis()%10;
 		for(int i=0; i<randomSeed; i++) {
 			for(int j=0; j<NUMRUNS;j++) {
 				rsg.nextSeed();
 			}
-		}*/
+		}
 		for(int i=0; i<NUMRUNS;i++) {
 			seeds[i]=new Seeds(rsg);
 		}
@@ -119,12 +119,12 @@ public class Experimentation {
 
 		run +=1;
 		intervals=runSchedule(cashierSchedule, baggerSchedule, seeds, false);
+		ArrayList<Integer> backtrackingStart = new ArrayList<Integer>();
+		ArrayList<Integer> backtrackingDuration = new ArrayList<Integer>();
 		for(int i=0; i<16; i++) {
 			propLongWait[i]=intervals[i].getCfMax();
 		}
 		while(!waitOK(propLongWait,CEIL)) {
-			ArrayList<Integer> backtrackingStart = new ArrayList<Integer>();
-			ArrayList<Integer> backtrackingDuration = new ArrayList<Integer>();
 			run +=1;
 			System.out.printf("\nRun: %d \n", run);
 			System.out.printf("Current long wait proportion: %s\n", Arrays.toString(propLongWait));
@@ -191,9 +191,9 @@ public class Experimentation {
 					}
 
 					int nbToRemove = backtrackingStart.size()-beginning;
-					for(int i=0; i<nbToRemove; i++) {
-						backtrackingStart.remove(beginning+i);
-						backtrackingDuration.remove(beginning+i);
+					for(int i=nbToRemove; i>0; i--) {
+						backtrackingStart.remove(beginning+i-1);
+						backtrackingDuration.remove(beginning+i-1);
 					}
 					backtrackingStart.add(problemStart-1);
 					backtrackingDuration.add(newDuration);
