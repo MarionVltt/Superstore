@@ -14,7 +14,10 @@ public class Experimentation {
 	static final double startTime=0.0, endTime=480; //simulation start and end times.
 	static RandomSeedGenerator rsg = new RandomSeedGenerator(); //random seed generator
 
-	static public boolean waitOK(double [] propLongWait, double ceil) {// verifies that for each period the proportion of customers waiting more than 15 is below CEIL
+	/*
+	 *  verifies that for each period the proportion of customers waiting more than 15 min is below CEIL
+	 */
+	static public boolean waitOK(double [] propLongWait, double ceil) {
 		for(int i = 0; i<16; i++) {
 			if(propLongWait[i]>ceil)
 				return false;
@@ -22,11 +25,9 @@ public class Experimentation {
 		return true;
 	}
 
-
-
-
-
-	//This function executes an experiment with given schedule, by running the simulation 1000 times, and returning the CI for each period.
+	/*
+	 * This function executes an experiment with given schedule, by running the simulation 1000 times, and returning the CI for each period.
+	 */
 	static public ConfidenceInterval[] runSchedule(int [] cashierSchedule, int []baggerSchedule,Seeds[] seeds, boolean verbose) {
 		SMSuperstore model; // instantiate model
 		ConfidenceInterval [] intervals = new ConfidenceInterval[16];
@@ -57,24 +58,26 @@ public class Experimentation {
 						Math.abs(intervals[j].getZeta()/intervals[j].getPointEstimate()));
 			}
 		}
-
 		return intervals;
 	}
 
 
-
-
-
 	public static void main(String[] args) {
-		int [] cashierSchedule= {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}; //cashiers schedule
-		int [] baggerSchedule= {20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20}; //bagger schedule, initially set to 20 per period to eliminate bagger bottleneck.
-		double[] propLongWait = new double[16]; //proportion of customer that wait more than 15 minutes at each period.
-		double [] delta = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; //number of employee delta for each period, only useful for printing/debuging purposes.
-		int shiftStart, shiftDuration; //used to compute the period at which the newly added employee will start and how many periods he will work.
+		//cashiers schedule
+		int [] cashierSchedule= {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}; 
+		//bagger schedule, initially set to 20 per period to eliminate bagger bottleneck.
+		int [] baggerSchedule= {20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20}; 
+		//proportion of customer that wait more than 15 minutes at each period.
+		double[] propLongWait = new double[16]; 
+		//number of employee delta for each period, only useful for printing/debuging purposes.
+		double [] delta = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; 
+		//used to compute the period at which the newly added employee will start and how many periods he will work.
+		int shiftStart, shiftDuration; 
 		int run=0; //number of simulation runs
-		Seeds [] seeds = new Seeds[NUMRUNS]; //seeds for the 1000 iteration of each run. All the runs will use the same 1000 seeds to reduce variance.
+		//seeds for the 1000 iteration of each run. All the runs will use the same 1000 seeds to reduce variance.
+		Seeds [] seeds = new Seeds[NUMRUNS]; 
 		/*
-		 * Uncomment this block to get different seeds when launching the schedule optimization.
+		 * Uncomment this block to get different seeds between two runs of the schedule optimization.
 		 * 
 		int randomSeed=(int) System.currentTimeMillis()%10;
  		for(int i=0; i<randomSeed; i++) {
@@ -82,9 +85,8 @@ public class Experimentation {
 				rsg.nextSeed();
 			}
 		}
-
-
 		 */
+		
 		for(int i=0; i<NUMRUNS;i++) {//generate the 1000 seeds.
 			seeds[i]=new Seeds(rsg);
 		}
@@ -93,7 +95,8 @@ public class Experimentation {
 		System.out.println("Initiating Cashier schedule optimization...");
 		intervals=runSchedule(cashierSchedule, baggerSchedule, seeds, true); //get base line number.
 		for(int i=0; i<16; i++) {
-			propLongWait[i]=intervals[i].getCfMax();//use CfMax instead of point estimate so that the actual value is 90% certain to be below CEIL
+			//use CfMax instead of point estimate so that the actual value is 90% certain to be below CEIL
+			propLongWait[i]=intervals[i].getCfMax();
 		}
 
 		//This is the cashier schedule loop.
@@ -105,16 +108,16 @@ public class Experimentation {
 			do{
 				shiftStart+= 1;
 			}while(shiftStart < 11 && propLongWait[shiftStart]<CEIL) ; //find first period where customers wait too much, and use it as start of shift for next cashier.
-			// Cannot start a shift after 11 otherwise the 
+			// Cannot start a shift after 11 otherwise the cashier won't be able to work long enough
 			if(shiftStart>0) {
-				shiftStart -=1; //The accumulation of customers in the previous period affects the results of he current period, 
+				shiftStart -=1; //The accumulation of customers in the previous period affects the results of the current period, 
 				//so make the employee start one period earlier.
 			}
 			shiftDuration=5; // initialized to 5 since it is going to be incremented to 6 in the do..while. Start with shift duration equal to 6 so that employee works at least 3 hours.
 			do {
 				shiftDuration +=1;
 			}while(shiftDuration < 10 && shiftStart+shiftDuration < 16 && propLongWait[shiftStart+shiftDuration-1]>=CEIL);//Shift duration should be less or equal to 5 hours, and end of shift should be at most the last period.
-			for(int i=0; i<16; i++) {
+			for(int i=0; i<16; i++) { //initialization 
 				delta[i]=0;
 			}
 			for(int i=0; i<shiftDuration; i++) {
@@ -149,7 +152,7 @@ public class Experimentation {
 		ArrayList<Integer> backtrackingDuration = new ArrayList<Integer>();// Arraylist used to keep track of the baggers shift duration as we add them, so that we can undo our modifications if need be.
 		
 		
-		//bagger main loop, see comments of cashier loop for more details as they are amlost the same.
+		//bagger main loop, see comments of cashier loop for more details as they are almost the same.
 		while(!waitOK(propLongWait,CEIL)) { //have we met our objective?
 			run +=1; // new experiment done here
 			System.out.printf("\nRun: %d \n", run);
@@ -188,7 +191,7 @@ public class Experimentation {
 
 			/* 
 			 * In this block we will apply a backtracking algorithm to fix cases where our simple algorithm tries to add more baggers
-			 * than there are cashiers in a given period. This can happen because cashiers have less of an influence on the queue times
+			 * than there are cashiers in a given period. This can happen because baggers have less influence on the queue times
 			 * compared to cashiers, and so interdependence between periods is more important when optimizing the bagger's schedule.
 			 * The basic working principle of this algorithm is as follows:
 			 *   * find the first period where there are more baggers than cashiers
