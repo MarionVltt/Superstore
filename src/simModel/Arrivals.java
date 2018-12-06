@@ -114,7 +114,7 @@ public class Arrivals extends ScheduledAction {
 	//initializes the rvp and udp associated with this class
 	static void init() {
 		for (int i=0; i<16;i++) {
-			interArrCust[i] = new Exponential(1.0/MEAN_INTER_ARR[i],
+			interArrCust[i] = new Exponential(1.0/MEAN_INTER_ARR[i]*model.ArrivalRateMultiplier,
 				                       	new MersenneTwister(model.sd.seedArrival[i]));
 		}
 		

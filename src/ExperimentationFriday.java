@@ -6,13 +6,16 @@ import outputAnalysis.ConfidenceInterval;
 import java.util.Arrays;
 import java.util.ArrayList;
 
-public class Experimentation {
+public class ExperimentationFriday {
 
-	static final int NUMRUNS = 1000; //number of runs per experiment
-	static final double confidence = 0.90; //confidence level
-	static final double CEIL = 0.10; // maximum proportion of customer waiting more than 15 min allowed
+	static final int NUMRUNS = 1500; //number of runs per experiment, should be 1500 for a confidence level of .95, or 1000 for a confidence level of .90
+	static final double confidence = 0.95; //confidence level for the CI. we are sure to confidence*100% that our estimated values lie within the CI.
+	static final double THRESHOLD = 0.10; // maximum proportion of customer waiting more than 15 min allowed
 	static final double startTime=0.0, endTime=480; //simulation start and end times.
 	static RandomSeedGenerator rsg = new RandomSeedGenerator(); //random seed generator
+	static final double CASHIER_WAGE = 7.25; //hourly wage for a cashier
+	static final double BAGGER_WAGE = 5.50; // hourly wage for a bagger
+	static final double ArrivalRateMultiplier = 1.15; //Fridays, customers arrive at a 15% faster rate than on Mon-Thu.
 
 	/*
 	 *  verifies that for each period the proportion of customers waiting more than 15 min is below CEIL
@@ -34,7 +37,7 @@ public class Experimentation {
 		double [][] values = new double[16][NUMRUNS]; 
 
 		for(int i = 0; i<NUMRUNS; i++) {
-			model = new SMSuperstore(startTime, endTime,cashierSchedule,baggerSchedule,seeds[i],false);
+			model = new SMSuperstore(startTime, endTime,cashierSchedule,baggerSchedule,ArrivalRateMultiplier,seeds[i],false);
 			model.runSimulation();
 			double [] results = model.getPropLongWait();
 			for(int j = 0; j<16; j++) {
@@ -49,13 +52,13 @@ public class Experimentation {
 		// debugging print enable by parameter verbose
 		if(verbose) {
 			System.out.printf("-------------------------------------------------------------------------------------\n");
-			System.out.printf("Comparison    Point estimate(ybar(n))  s(n)     zeta   CI Min   CI Max |zeta/ybar(n)|\n");
+			System.out.printf("Comparison    Point estimate(ybar(n))  s(n)     zeta   CI Min   CI Max |zeta/THRESHOLD|\n");
 			System.out.printf("-------------------------------------------------------------------------------------\n");
 			for(int j=0; j<16; j++) {
 				System.out.printf("Period: %2d %13.3f %18.3f %8.3f %8.3f %8.3f %14.3f\n",j,
 						intervals[j].getPointEstimate(), intervals[j].getVariance(), intervals[j].getZeta(), 
 						intervals[j].getCfMin(), intervals[j].getCfMax(),
-						Math.abs(intervals[j].getZeta()/intervals[j].getPointEstimate()));
+						Math.abs(intervals[j].getZeta()/THRESHOLD));
 			}
 		}
 		return intervals;
@@ -100,14 +103,14 @@ public class Experimentation {
 		}
 
 		//This is the cashier schedule loop.
-		while(!waitOK(propLongWait,CEIL)) { //have we met our objective?
+		while(!waitOK(propLongWait,THRESHOLD)) { //have we met our objective?
 			run +=1; // new experiment going on
 			System.out.printf("\nRun: %d \n", run);
 			System.out.printf("Current long wait proportion: %s\n", Arrays.toString(propLongWait));
 			shiftStart = -1; // initialized to -1 since it will be increased in the do..while
 			do{
 				shiftStart+= 1;
-			}while(shiftStart < 11 && propLongWait[shiftStart]<CEIL) ; //find first period where customers wait too much, and use it as start of shift for next cashier.
+			}while(shiftStart < 11 && propLongWait[shiftStart]<THRESHOLD) ; //find first period where customers wait too much, and use it as start of shift for next cashier.
 			// Cannot start a shift after 11 otherwise the cashier won't be able to work long enough
 			if(shiftStart>0) {
 				shiftStart -=1; //The accumulation of customers in the previous period affects the results of the current period, 
@@ -116,7 +119,7 @@ public class Experimentation {
 			shiftDuration=5; // initialized to 5 since it is going to be incremented to 6 in the do..while. Start with shift duration equal to 6 so that employee works at least 3 hours.
 			do {
 				shiftDuration +=1;
-			}while(shiftDuration < 10 && shiftStart+shiftDuration < 16 && propLongWait[shiftStart+shiftDuration-1]>=CEIL);//Shift duration should be less or equal to 5 hours, and end of shift should be at most the last period.
+			}while(shiftDuration < 10 && shiftStart+shiftDuration < 16 && propLongWait[shiftStart+shiftDuration-1]>=THRESHOLD);//Shift duration should be less or equal to 5 hours, and end of shift should be at most the last period.
 			for(int i=0; i<16; i++) { //initialization 
 				delta[i]=0;
 			}
@@ -136,6 +139,12 @@ public class Experimentation {
 		}
 		System.out.printf("\n\n\nOptimal Cashier Schedule: %s\n", Arrays.toString(cashierSchedule));
 		System.out.printf("Proportion of long wait times: %s\n", Arrays.toString(propLongWait));
+		double cashier_cost = 0;
+		for(int i=0; i< 16; i++) {
+			cashier_cost += cashierSchedule[i]*CASHIER_WAGE/2; // each period is 1/2 hours long.
+		}
+		System.out.printf("Cashier total cost: %2f \n\n", cashier_cost);
+		
 		System.out.println("Cashier schedule optimization done.\nBagger schedule optimization begining...");
 		for(int i=0; i<16; i++) {
 			baggerSchedule[i]=0 ; // reset bagger schedule to begin optimization
@@ -153,21 +162,21 @@ public class Experimentation {
 		
 		
 		//bagger main loop, see comments of cashier loop for more details as they are almost the same.
-		while(!waitOK(propLongWait,CEIL)) { //have we met our objective?
+		while(!waitOK(propLongWait,THRESHOLD)) { //have we met our objective?
 			run +=1; // new experiment done here
 			System.out.printf("\nRun: %d \n", run);
 			System.out.printf("Current long wait proportion: %s\n", Arrays.toString(propLongWait));
 			shiftStart = -1; // 
 			do{
 				shiftStart+= 1;
-			}while(shiftStart < 11 && propLongWait[shiftStart]<CEIL) ; // find bagger shift start according to schedule constraints
+			}while(shiftStart < 11 && propLongWait[shiftStart]<THRESHOLD) ; // find bagger shift start according to schedule constraints
 			if(shiftStart>0) {
 				shiftStart -= 1; //previous period as a lot of impact on current period, so start a period earlier.
 			}
 			shiftDuration=5;
 			do {
 				shiftDuration +=1;
-			}while(shiftDuration < 10 && shiftStart+shiftDuration < 16 && propLongWait[shiftStart+shiftDuration-1]>=CEIL); //find shift duration according to schedule constraints.
+			}while(shiftDuration < 10 && shiftStart+shiftDuration < 16 && propLongWait[shiftStart+shiftDuration-1]>=THRESHOLD); //find shift duration according to schedule constraints.
 
 			backtrackingStart.add(shiftStart); //add shift start to employee history
 			backtrackingDuration.add(shiftDuration);// add shift duration employee history
@@ -254,10 +263,19 @@ public class Experimentation {
 		}
 		System.out.printf("\n\n\nOptimal bagger Schedule: %s\n", Arrays.toString(baggerSchedule));
 		System.out.printf("Proportion of long wait times: %s\n", Arrays.toString(propLongWait));
-
+		double bagger_cost = 0;
+		for(int i=0; i< 16; i++) {
+			bagger_cost += baggerSchedule[i]*BAGGER_WAGE/2; // each period is 1/2 hours long.
+		}
+		System.out.printf("Bagger total cost: %2f \n\n", bagger_cost);
+		
+		
 		System.out.println("\n\nFinal schedules: ");
 		System.out.printf("Cashier schedule: %s\n", Arrays.toString(cashierSchedule));
 		System.out.printf("Bagger schedule:  %s\n", Arrays.toString(baggerSchedule));
+		System.out.printf("Total shcedule cost: %f\n\n\n", bagger_cost+cashier_cost);
+		System.out.println("Detailed stats on the confidence interval for the final schedule: ");
+		runSchedule(cashierSchedule,baggerSchedule,seeds,true);
 
 	}
 

@@ -54,34 +54,34 @@ class VerificationExperiment {
        
        //see detailed CM for an explanation of the desired results.
        
-       model = new SMSuperstore(startTime,endTime,cashierSchedule[full_staff],baggerSchedule[full_staff],sds[0], false);
+       model = new SMSuperstore(startTime,endTime,cashierSchedule[full_staff],baggerSchedule[full_staff],1,sds[0], false);
        model.runSimulation();   
        System.out.println("Full staff: "+toString(model.getPropLongWait())+"\n");
        
-       model = new SMSuperstore(startTime,endTime,cashierSchedule[no_staff],baggerSchedule[no_staff],sds[0], false);
+       model = new SMSuperstore(startTime,endTime,cashierSchedule[no_staff],baggerSchedule[no_staff],1,sds[0], false);
        model.runSimulation();   
        System.out.println("No staff: "+toString(model.getPropLongWait())+"\n");
        
        
        System.out.println("Dynamic tests:");
        
-       model = new SMSuperstore(startTime,endTime,cashierSchedule[base_case],baggerSchedule[base_case],sds[0], false);
+       model = new SMSuperstore(startTime,endTime,cashierSchedule[base_case],baggerSchedule[base_case],1,sds[0], false);
        model.runSimulation();   
        System.out.println("Base Case: "+toString(model.getPropLongWait())+"\n");
        
-       model = new SMSuperstore(startTime,endTime,cashierSchedule[increased_case],baggerSchedule[base_case],sds[1], false);
+       model = new SMSuperstore(startTime,endTime,cashierSchedule[increased_case],baggerSchedule[base_case],1,sds[1], false);
        model.runSimulation();   
        System.out.println("Cashier increased Case: "+toString(model.getPropLongWait())+"\n");
        
-       model = new SMSuperstore(startTime,endTime,cashierSchedule[decreased_case],baggerSchedule[base_case],sds[1], false);
+       model = new SMSuperstore(startTime,endTime,cashierSchedule[decreased_case],baggerSchedule[base_case],1,sds[1], false);
        model.runSimulation();   
        System.out.println("Cashier decreased Case: "+toString(model.getPropLongWait())+"\n");
        
-       model = new SMSuperstore(startTime,endTime,cashierSchedule[base_case],baggerSchedule[increased_case],sds[1], false);
+       model = new SMSuperstore(startTime,endTime,cashierSchedule[base_case],baggerSchedule[increased_case],1,sds[1], false);
        model.runSimulation();   
        System.out.println("Bagger increased Case: "+toString(model.getPropLongWait())+"\n");
        
-       model = new SMSuperstore(startTime,endTime,cashierSchedule[base_case],baggerSchedule[decreased_case],sds[1], false);
+       model = new SMSuperstore(startTime,endTime,cashierSchedule[base_case],baggerSchedule[decreased_case],1,sds[1], false);
        model.runSimulation();   
        System.out.println("Bagger decreased Case: "+toString(model.getPropLongWait())+"\n");
    }

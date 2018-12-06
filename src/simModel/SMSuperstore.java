@@ -17,6 +17,7 @@ public class SMSuperstore extends AOSimulationModel
     
 	protected CustLine [] qCustLines = new CustLine[20];
 	protected Counter [] rcCounters = new Counter[20];
+	protected double ArrivalRateMultiplier;
 	protected Baggers rgBaggers = new Baggers();
 	protected Supervisor rSupervisor = new Supervisor();
 	protected ApproveLine qApproveLine = new ApproveLine();
@@ -58,10 +59,11 @@ public class SMSuperstore extends AOSimulationModel
 		
 	}
 	// Constructor
-	public SMSuperstore(double t0time, double tftime,int [] cashierSchedule, int[] baggerSchedule , Seeds sd, boolean logFlag)
+	public SMSuperstore(double t0time, double tftime,int [] cashierSchedule, int[] baggerSchedule, double ArrivalRateMultiplier , Seeds sd, boolean logFlag)
 	{
 		
 		// Turn trancing on if traceFlag is true
+		this.ArrivalRateMultiplier = ArrivalRateMultiplier;
 		this.logFlag = logFlag;
 		this.sd = sd;
 		//Initialise static attributes model
