@@ -1,3 +1,7 @@
+/*
+ * This class implements an optimization algorithm deigned to find a schedule for the store on Fridays. 
+ * This implies a 15% increase in customer arrival rates (see ArrivalRateMultiplier parameter). 
+ */
 
 
 import simModel.*;
@@ -15,7 +19,7 @@ public class ExperimentationFriday {
 	static RandomSeedGenerator rsg = new RandomSeedGenerator(); //random seed generator
 	static final double CASHIER_WAGE = 7.25; //hourly wage for a cashier
 	static final double BAGGER_WAGE = 5.50; // hourly wage for a bagger
-	static final double ArrivalRateMultiplier = 1.15; //Fridays, customers arrive at a 15% faster rate than on Mon-Thu.
+	static final double ArrivalRateMultiplier = 1.30; //Fridays, customers arrive at a 15% faster rate than on Mon-Thu.
 
 	/*
 	 *  verifies that for each period the proportion of customers waiting more than 15 min is below CEIL
@@ -225,10 +229,11 @@ public class ExperimentationFriday {
 				int beginning = -1; //this variable will hold the index of the first "problematic" employee in the history of employees 
 				for(int i=0; i<backtrackingStart.size(); i++) { //scan history of employees
 					if(backtrackingStart.get(i)>=problemPeriod) { //employee that started later than the problematic period
+						int thisStart = backtrackingStart.get(i);
 						if(beginning==-1) beginning=i; //if it's the first of such employee, update beginning 
 						for(int j=0; j<backtrackingDuration.get(i); j++) { //remove the employee from the schedule.
-							baggerSchedule[problemPeriod+j] --;
-							delta[problemPeriod+j]--;
+							baggerSchedule[thisStart+j] --;
+							delta[thisStart+j]--;
 						}
 					}
 				}//at this stage we have removed all the employees starting later than the problematic period

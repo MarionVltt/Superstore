@@ -1,6 +1,6 @@
 /*
- * This class implements an optimization algorithm deigned to find a schedule for the store on normal weekdays
- * (Mondays to Thurdays). 
+ * This class implements an optimization algorithm deigned to find a schedule for the store with an arbitrary modification
+ * in the customers arrival rates. The user can modify the ArrivalRateMultiplier constant to modify the arrival rates.
  */
 
 import simModel.*;
@@ -9,7 +9,7 @@ import outputAnalysis.ConfidenceInterval;
 import java.util.Arrays;
 import java.util.ArrayList;
 
-public class ExperimentationStandard {
+public class ExperimentationArbitrary {
 
 	static final int NUMRUNS = 1500; //number of runs per experiment, should be 1500 for a confidence level of .95, or 1000 for a confidence level of .90
 	static final double confidence = 0.95; //confidence level for the CI. we are sure to confidence*100% that our estimated values lie within the CI.
@@ -18,7 +18,14 @@ public class ExperimentationStandard {
 	static RandomSeedGenerator rsg = new RandomSeedGenerator(); //random seed generator
 	static final double CASHIER_WAGE = 7.25; //hourly wage for a cashier
 	static final double BAGGER_WAGE = 5.50; // hourly wage for a bagger
+	
+	//Modify this value to customize the arrival rates.
+	//ArrivalRateMultiplier > 1 yields a (ArrivalRateMultiplier - 1)*100% increase in arrival rates compared to the base case.
+	//ArrivalRateMultiplier < 1 yields a (1 - ArrivalRateMultiplier)*100% decrease in arrival rates compared to the base case.
+	static final double ArrivalRateMultiplier = 0.85;
 
+	
+	
 	/*
 	 *  verifies that for each period the proportion of customers waiting more than 15 min is below CEIL
 	 */
@@ -39,7 +46,7 @@ public class ExperimentationStandard {
 		double [][] values = new double[16][NUMRUNS]; 
 
 		for(int i = 0; i<NUMRUNS; i++) {
-			model = new SMSuperstore(startTime, endTime,cashierSchedule,baggerSchedule,1,seeds[i],false);
+			model = new SMSuperstore(startTime, endTime,cashierSchedule,baggerSchedule,ArrivalRateMultiplier,seeds[i],false);
 			model.runSimulation();
 			double [] results = model.getPropLongWait();
 			for(int j = 0; j<16; j++) {
@@ -226,8 +233,8 @@ public class ExperimentationStandard {
 				System.out.println("Shift duration history before backtracking: " + Arrays.toString(backtrackingDuration.toArray()));
 				int beginning = -1; //this variable will hold the index of the first "problematic" employee in the history of employees 
 				for(int i=0; i<backtrackingStart.size(); i++) { //scan history of employees
-					if(backtrackingStart.get(i)>=problemPeriod) { //employee that started later than the problematic period
-						int thisStart = backtrackingStart.get(i);
+					if(backtrackingStart.get(i)>=problemPeriod) {//employee that started later than the problematic period
+						int thisStart=backtrackingStart.get(i);
 						if(beginning==-1) beginning=i; //if it's the first of such employee, update beginning 
 						for(int j=0; j<backtrackingDuration.get(i); j++) { //remove the employee from the schedule.
 							baggerSchedule[thisStart+j] --;
