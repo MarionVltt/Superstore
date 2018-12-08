@@ -19,14 +19,14 @@ public class ExperimentationFriday {
 	static RandomSeedGenerator rsg = new RandomSeedGenerator(); //random seed generator
 	static final double CASHIER_WAGE = 7.25; //hourly wage for a cashier
 	static final double BAGGER_WAGE = 5.50; // hourly wage for a bagger
-	static final double ArrivalRateMultiplier = 1.30; //Fridays, customers arrive at a 15% faster rate than on Mon-Thu.
+	static final double ArrivalRateMultiplier = 1.15; //Fridays, customers arrive at a 15% faster rate than on Mon-Thu.
 
 	/*
 	 *  verifies that for each period the proportion of customers waiting more than 15 min is below CEIL
 	 */
-	static public boolean waitOK(double [] propLongWait, double ceil) {
+	static public boolean waitOK(double [] propLongWait, double threshold) {
 		for(int i = 0; i<16; i++) {
-			if(propLongWait[i]>ceil)
+			if(propLongWait[i]>threshold)
 				return false;
 		}
 		return true;

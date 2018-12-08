@@ -29,9 +29,9 @@ public class ExperimentationArbitrary {
 	/*
 	 *  verifies that for each period the proportion of customers waiting more than 15 min is below CEIL
 	 */
-	static public boolean waitOK(double [] propLongWait, double ceil) {
+	static public boolean waitOK(double [] propLongWait, double threshold) {
 		for(int i = 0; i<16; i++) {
-			if(propLongWait[i]>ceil)
+			if(propLongWait[i]>threshold)
 				return false;
 		}
 		return true;
